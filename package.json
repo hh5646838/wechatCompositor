@@ -1,0 +1,9 @@
+{
+  "name": "wechat-markdown-editor",
+  "version": "1.0.0",
+  "description": "微信公众号 Markdown 一键排版工具 —— 纯前端 + 极简配置 API",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  }
+}
