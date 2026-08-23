@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>公众号 Markdown 一键排版工具</title>
 <style>
-/* ========== 全局重置与应用 UI 样式（非内容样式） ========== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
@@ -18,7 +17,7 @@ body {
 }
 a { color: inherit; text-decoration: none; }
 
-/* ========== 顶部导航 ========== */
+/* ===== 顶部导航 ===== */
 .top-nav {
   background: #fff;
   border-bottom: 1px solid #e4e7ed;
@@ -34,31 +33,22 @@ a { color: inherit; text-decoration: none; }
 }
 .nav-left { display: flex; align-items: center; gap: 12px; }
 .nav-logo {
-  width: 36px; height: 36px;
+  width: 38px; height: 38px;
   background: linear-gradient(135deg, #07c160, #10ad56);
-  border-radius: 8px;
+  border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
-  color: #fff; font-weight: 800; font-size: 18px;
+  color: #fff; font-weight: 800; font-size: 20px;
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(7,193,96,0.3);
 }
 .nav-title { font-size: 17px; font-weight: 700; color: #1a1a1a; }
-.nav-right { display: flex; align-items: center; gap: 16px; }
+.nav-right { display: flex; align-items: center; gap: 12px; }
 .nav-avatar {
   width: 34px; height: 34px; border-radius: 50%;
   object-fit: cover; border: 2px solid #e4e7ed;
   cursor: pointer;
 }
-.nav-follow {
-  padding: 6px 16px;
-  background: #07c160;
-  color: #fff !important;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  transition: background 0.2s;
-}
-.nav-follow:hover { background: #06a552; }
-.nav-help {
+.nav-link {
   padding: 6px 14px;
   border: 1px solid #dcdfe6;
   border-radius: 6px;
@@ -66,10 +56,23 @@ a { color: inherit; text-decoration: none; }
   cursor: pointer;
   background: #fff;
   transition: all 0.2s;
+  color: #606266;
 }
-.nav-help:hover { border-color: #07c160; color: #07c160; }
+.nav-link:hover { border-color: #07c160; color: #07c160; }
+.nav-follow {
+  padding: 6px 18px;
+  background: #07c160;
+  color: #fff !important;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+.nav-follow:hover { background: #06a552; }
 
-/* ========== 控制面板 ========== */
+/* ===== 控制面板 ===== */
 .control-panel {
   background: #fff;
   border-bottom: 1px solid #e4e7ed;
@@ -87,8 +90,7 @@ a { color: inherit; text-decoration: none; }
 }
 .control-group select,
 .control-group input[type="color"],
-.control-group input[type="number"],
-.control-group input[type="text"] {
+.control-group input[type="number"] {
   padding: 6px 10px;
   border: 1px solid #dcdfe6;
   border-radius: 6px;
@@ -100,15 +102,35 @@ a { color: inherit; text-decoration: none; }
 .control-group select:focus,
 .control-group input:focus { border-color: #07c160; }
 .control-group input[type="color"] {
-  width: 42px; height: 32px; padding: 2px; cursor: pointer;
+  width: 38px; height: 32px; padding: 2px; cursor: pointer; border-radius: 6px;
 }
 .size-row { display: flex; gap: 8px; align-items: center; }
-.size-row .control-group { min-width: 60px; }
-.size-row .control-group input { width: 60px; text-align: center; }
+.size-row .control-group { min-width: 56px; }
+.size-row .control-group input { width: 56px; text-align: center; }
+
+/* 7 色快捷色板 */
+.color-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.swatch {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px #dcdfe6;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.swatch:hover { transform: scale(1.15); box-shadow: 0 0 0 2px #07c160; }
+.swatch.active { box-shadow: 0 0 0 2px #07c160; transform: scale(1.1); }
+.reset-color-btn {
+  padding: 4px 10px; font-size: 12px; border: 1px solid #dcdfe6;
+  border-radius: 4px; background: #fff; cursor: pointer; color: #909399;
+  transition: all 0.2s;
+}
+.reset-color-btn:hover { border-color: #f56c6c; color: #f56c6c; }
+
 .custom-css-group { flex: 1; min-width: 280px; }
 .custom-css-group textarea {
   width: 100%;
-  min-height: 60px;
+  min-height: 56px;
   padding: 8px 10px;
   border: 1px solid #dcdfe6;
   border-radius: 6px;
@@ -126,7 +148,7 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.4;
 }
 
-/* ========== 双栏编辑器 ========== */
+/* ===== 双栏编辑器 ===== */
 .editor-container {
   flex: 1;
   display: flex;
@@ -154,7 +176,28 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
 }
+.pane-header-right { display: flex; align-items: center; gap: 10px; }
+.pane-note { font-size: 11px; color: #c0c4cc; font-weight: 400; }
+
+/* 预览头部的复制按钮 */
+.btn-copy-header {
+  padding: 6px 18px;
+  background: linear-gradient(135deg, #07c160, #10ad56);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(7,193,96,0.25);
+}
+.btn-copy-header:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(7,193,96,0.35); }
+.btn-copy-header.copied { background: linear-gradient(135deg, #67c23a, #5daf34); }
+
 #markdown-input {
   flex: 1;
   width: 100%;
@@ -175,7 +218,7 @@ a { color: inherit; text-decoration: none; }
 }
 #preview { max-width: 100%; }
 
-/* ========== 字数统计 ========== */
+/* ===== 字数统计 ===== */
 .word-count-bar {
   padding: 8px 16px;
   border-top: 1px solid #ebeef5;
@@ -193,32 +236,7 @@ a { color: inherit; text-decoration: none; }
 }
 .word-count-tip { font-size: 12px; }
 
-/* ========== 底部操作栏 ========== */
-.action-bar {
-  padding: 16px 24px;
-  background: #fff;
-  border-top: 1px solid #e4e7ed;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-}
-.btn-copy {
-  padding: 12px 48px;
-  background: linear-gradient(135deg, #07c160, #10ad56);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 2px 8px rgba(7,193,96,0.3);
-}
-.btn-copy:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(7,193,96,0.4); }
-.btn-copy:active { transform: translateY(0); }
-.btn-copy.copied { background: linear-gradient(135deg, #67c23a, #5daf34); }
-
-/* ========== 弹窗通用 ========== */
+/* ===== 弹窗通用 ===== */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -264,7 +282,50 @@ a { color: inherit; text-decoration: none; }
 }
 .modal-close-btn:hover { background: #e8eaed; }
 
-/* ========== 猫猫泪水弹窗 ========== */
+/* ===== 关注公众号弹窗 ===== */
+.follow-modal .modal-box { max-width: 380px; text-align: center; overflow: hidden; }
+.follow-qr {
+  width: 200px; height: 200px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin: 8px auto 16px;
+  display: block;
+  border: 1px solid #eee;
+  padding: 6px;
+  background: #fff;
+}
+.follow-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding: 0 24px;
+}
+.follow-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+  background: #f5f7fa;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px dashed #dcdfe6;
+}
+.btn-copy-name {
+  padding: 6px 16px;
+  background: #07c160;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.btn-copy-name:hover { background: #06a552; }
+.follow-tip { font-size: 13px; color: #909399; margin-bottom: 16px; padding: 0 24px; }
+
+/* ===== 猫猫泪水弹窗 ===== */
 .cat-popup .modal-box {
   max-width: 400px;
   text-align: center;
@@ -303,24 +364,20 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.5;
 }
 .cat-article-qr {
-  width: 120px;
-  height: 120px;
+  width: 130px;
+  height: 130px;
   object-fit: contain;
   border-radius: 6px;
-  margin: 0 auto 10px;
+  margin: 0 auto 8px;
   display: block;
   background: #fff;
   padding: 4px;
   border: 1px solid #eee;
 }
-.cat-article-link {
-  display: inline-block;
-  padding: 6px 20px;
-  background: #07c160;
-  color: #fff !important;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 500;
+.cat-scan-tip {
+  font-size: 12px;
+  color: #909399;
+  margin-top: 6px;
 }
 .cat-footer {
   padding: 0 24px 20px;
@@ -338,7 +395,7 @@ a { color: inherit; text-decoration: none; }
 }
 .cat-close-btn:hover { background: #e8eaed; color: #606266; }
 
-/* ========== Toast ========== */
+/* ===== Toast ===== */
 .toast {
   position: fixed;
   top: 80px;
@@ -356,19 +413,20 @@ a { color: inherit; text-decoration: none; }
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* ========== 响应式 ========== */
+/* ===== 响应式 ===== */
 @media (max-width: 900px) {
   .editor-container { flex-direction: column; padding: 12px; }
   .editor-pane:first-child { margin-right: 0; margin-bottom: 12px; min-height: 300px; }
   .control-panel { padding: 12px; gap: 12px; }
   .top-nav { padding: 0 12px; }
   .nav-title { font-size: 14px; }
+  .pane-note { display: none; }
 }
 </style>
 </head>
 <body>
 
-<!-- ========== 顶部导航 ========== -->
+<!-- ===== 顶部导航 ===== -->
 <nav class="top-nav">
   <div class="nav-left">
     <div class="nav-logo">M</div>
@@ -376,26 +434,15 @@ a { color: inherit; text-decoration: none; }
   </div>
   <div class="nav-right">
     <img class="nav-avatar" id="nav-avatar" src="" alt="站长头像" style="display:none;">
-    <a class="nav-follow" id="nav-follow" href="#" target="_blank" rel="noopener">关注我</a>
-    <button class="nav-help" id="nav-help">使用帮助</button>
+    <a class="nav-link" id="nav-toolbox" href="#" target="_blank" rel="noopener" style="display:none;">JoJo的AI工具箱</a>
+    <button class="nav-link" id="nav-help">使用帮助</button>
+    <button class="nav-follow" id="nav-follow">关注我</button>
   </div>
 </nav>
 
-<!-- ========== 控制面板 ========== -->
+<!-- ===== 控制面板（字体→字号→主题→自定义色→CSS） ===== -->
 <div class="control-panel">
-  <div class="control-group">
-    <label>预设主题</label>
-    <select id="theme-select">
-      <option value="">加载中...</option>
-    </select>
-  </div>
-  <div class="control-group">
-    <label>自定义主题色</label>
-    <div style="display:flex;gap:6px;align-items:center;">
-      <input type="color" id="custom-color" value="#07c160" title="选择主题色">
-      <button id="reset-color" style="padding:4px 8px;font-size:12px;border:1px solid #dcdfe6;border-radius:4px;background:#fff;cursor:pointer;">重置</button>
-    </div>
-  </div>
+  <!-- 正文字体 -->
   <div class="control-group">
     <label>正文字体</label>
     <select id="font-select">
@@ -406,6 +453,8 @@ a { color: inherit; text-decoration: none; }
       <option value='"Microsoft YaHei", "PingFang SC", sans-serif'>微软雅黑</option>
     </select>
   </div>
+
+  <!-- 字号调节 -->
   <div class="size-row">
     <div class="control-group"><label>H1</label><input type="number" id="size-h1" value="24" min="14" max="40"></div>
     <div class="control-group"><label>H2</label><input type="number" id="size-h2" value="20" min="14" max="36"></div>
@@ -413,6 +462,40 @@ a { color: inherit; text-decoration: none; }
     <div class="control-group"><label>H4</label><input type="number" id="size-h4" value="16" min="12" max="28"></div>
     <div class="control-group"><label>正文</label><input type="number" id="size-body" value="16" min="12" max="24"></div>
   </div>
+
+  <!-- 预设主题 -->
+  <div class="control-group">
+    <label>预设主题</label>
+    <select id="theme-select">
+      <option value="">加载中...</option>
+    </select>
+  </div>
+
+  <!-- 自定义主题色 + 7色快捷色板 -->
+  <div class="control-group">
+    <label>自定义主题色</label>
+    <div class="color-row">
+      <input type="color" id="custom-color" value="#07c160" title="选择主题色">
+      <div class="swatch" data-color="#07c160" style="background:#07c160" title="微信绿"></div>
+      <div class="swatch" data-color="#1a5fb4" style="background:#1a5fb4" title="学术蓝"></div>
+      <div class="swatch" data-color="#ff6b35" style="background:#ff6b35" title="活力橙"></div>
+      <div class="swatch" data-color="#c41e3a" style="background:#c41e3a" title="中国红"></div>
+      <div class="swatch" data-color="#6d28d9" style="background:#6d28d9" title="稀有紫"></div>
+      <div class="swatch" data-color="#00A86B" style="background:#00A86B" title="樱桃绿"></div>
+      <div class="swatch" data-color="#ff006e" style="background:#ff006e" title="波普粉"></div>
+      <button class="reset-color-btn" id="reset-color">重置</button>
+    </div>
+  </div>
+
+  <!-- 文章头部信息开关 -->
+  <div class="control-group">
+    <label>文章头部</label>
+    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;color:#606266;white-space:nowrap;height:32px;">
+      <input type="checkbox" id="meta-toggle"> 字数+阅读时间
+    </label>
+  </div>
+
+  <!-- 自定义 CSS -->
   <div class="control-group custom-css-group">
     <label>自定义 CSS（追加到主题样式之后）</label>
     <textarea id="custom-css" placeholder="/* 在此输入额外 CSS，例如：.content p { text-indent: 2em; } */"></textarea>
@@ -420,12 +503,12 @@ a { color: inherit; text-decoration: none; }
   </div>
 </div>
 
-<!-- ========== 双栏编辑器 ========== -->
+<!-- ===== 双栏编辑器 ===== -->
 <div class="editor-container">
   <div class="editor-pane">
     <div class="pane-header">
       <span>Markdown 编辑</span>
-      <span style="font-size:11px;color:#c0c4cc;">支持标准 Markdown 语法</span>
+      <span class="pane-note">支持标准 Markdown 语法</span>
     </div>
     <textarea id="markdown-input" spellcheck="false" placeholder="在此输入 Markdown 内容..."># 欢迎使用公众号 Markdown 一键排版工具
 
@@ -434,7 +517,7 @@ a { color: inherit; text-decoration: none; }
 ## 核心特性
 
 - 支持标准 Markdown 语法
-- 多套预设主题，一键切换
+- 9 套预设主题，一键切换
 - 自定义主题色、字体、字号
 - Juice CSS 内联，完美兼容微信
 - 超过 1500 字温馨提醒
@@ -469,7 +552,10 @@ function hello() {
   <div class="editor-pane">
     <div class="pane-header">
       <span>实时预览</span>
-      <span style="font-size:11px;color:#c0c4cc;">与公众号后台效果一致</span>
+      <div class="pane-header-right">
+        <span class="pane-note">与公众号后台效果一致</span>
+        <button class="btn-copy-header" id="copy-btn">复制富文本</button>
+      </div>
     </div>
     <div class="preview-wrapper">
       <div id="preview" class="content"></div>
@@ -477,12 +563,7 @@ function hello() {
   </div>
 </div>
 
-<!-- ========== 底部操作栏 ========== -->
-<div class="action-bar">
-  <button class="btn-copy" id="copy-btn">复制富文本到公众号</button>
-</div>
-
-<!-- ========== 使用帮助弹窗 ========== -->
+<!-- ===== 使用帮助弹窗 ===== -->
 <div class="modal-overlay" id="help-modal">
   <div class="modal-box">
     <div class="modal-header">使用帮助 & 微信排版限制</div>
@@ -493,32 +574,42 @@ function hello() {
   </div>
 </div>
 
-<!-- ========== 猫猫泪水弹窗 ========== -->
+<!-- ===== 关注公众号弹窗 ===== -->
+<div class="modal-overlay follow-modal" id="follow-modal">
+  <div class="modal-box">
+    <div class="modal-header" style="text-align:center;border-bottom:none;padding-bottom:4px;">关注公众号</div>
+    <div class="modal-body" style="padding-top:8px;">
+      <img class="follow-qr" id="follow-qr" src="" alt="公众号二维码" referrerpolicy="no-referrer">
+      <div class="follow-tip">微信扫一扫，关注我获取更多排版技巧</div>
+      <div class="follow-name-row">
+        <span class="follow-name" id="follow-name">公众号名称</span>
+        <button class="btn-copy-name" id="copy-name-btn">复制名称</button>
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content:center;">
+      <button class="modal-close-btn" onclick="document.getElementById('follow-modal').classList.remove('active')">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 猫猫泪水弹窗 ===== -->
 <div class="modal-overlay cat-popup" id="cat-popup">
   <div class="modal-box">
     <div class="cat-svg-wrap">
-      <!-- 哭泣猫猫 SVG -->
       <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <!-- 猫耳朵 -->
         <polygon points="22,30 30,8 42,28" fill="#f5d0a9" stroke="#e0b88c" stroke-width="1.5"/>
         <polygon points="78,30 70,8 58,28" fill="#f5d0a9" stroke="#e0b88c" stroke-width="1.5"/>
         <polygon points="26,26 31,14 38,26" fill="#ffb6c1"/>
         <polygon points="74,26 69,14 62,26" fill="#ffb6c1"/>
-        <!-- 猫脸 -->
         <ellipse cx="50" cy="55" rx="34" ry="30" fill="#f5d0a9" stroke="#e0b88c" stroke-width="1.5"/>
-        <!-- 眼睛（闭着哭泣） -->
         <path d="M32 50 Q37 46 42 50" stroke="#5a4a3a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
         <path d="M58 50 Q63 46 68 50" stroke="#5a4a3a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-        <!-- 泪水 -->
         <ellipse cx="35" cy="58" rx="3" ry="5" fill="#7ec8e3" opacity="0.8"/>
         <ellipse cx="65" cy="58" rx="3" ry="5" fill="#7ec8e3" opacity="0.8"/>
         <path d="M35 62 Q34 68 33 72" stroke="#7ec8e3" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
         <path d="M65 62 Q66 68 67 72" stroke="#7ec8e3" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
-        <!-- 鼻子 -->
         <polygon points="47,60 53,60 50,64" fill="#ff9999"/>
-        <!-- 嘴巴（难过） -->
         <path d="M44 70 Q50 65 56 70" stroke="#5a4a3a" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <!-- 胡须 -->
         <line x1="20" y1="60" x2="32" y2="62" stroke="#d4b896" stroke-width="1.2"/>
         <line x1="20" y1="65" x2="32" y2="65" stroke="#d4b896" stroke-width="1.2"/>
         <line x1="80" y1="60" x2="68" y2="62" stroke="#d4b896" stroke-width="1.2"/>
@@ -528,7 +619,7 @@ function hello() {
     <div class="cat-title">猫猫泪水浸湿眼眶</div>
     <div class="cat-message">排版已成功复制！快去阅读我的文章支持我吧。当然你也可以直接关掉弹窗继续免费使用，哭泣 ( T﹏T )</div>
     <div class="cat-article" id="cat-article">
-      <!-- 动态填充 -->
+      <!-- 动态填充：标题 + 二维码 + 扫码提示，无链接按钮 -->
     </div>
     <div class="cat-footer">
       <button class="cat-close-btn" id="cat-close-btn">关闭弹窗，继续免费使用</button>
@@ -539,7 +630,7 @@ function hello() {
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
-<!-- ========== CDN：marked.js & juice.js ========== -->
+<!-- CDN -->
 <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/juice@8.1.0/client.js"></script>
 
@@ -547,12 +638,10 @@ function hello() {
 (function() {
   "use strict";
 
-  // ========== 全局状态 ==========
-  let APP_CONFIG = null;       // /api/config 返回的完整配置
-  let currentThemeKey = null;  // 当前选中的主题 key
-  let copyCount = 0;           // 累计复制次数（从 localStorage 读取）
+  let APP_CONFIG = null;
+  let currentThemeKey = null;
+  let copyCount = 0;
 
-  // DOM 引用
   const $ = (id) => document.getElementById(id);
   const markdownInput = $("markdown-input");
   const preview = $("preview");
@@ -566,44 +655,29 @@ function hello() {
   const wordCountTip = $("word-count-tip");
   const toast = $("toast");
 
-  // ========== 初始化：拉取后端配置 ==========
   async function init() {
-    // 读取复制次数
-    try {
-      copyCount = parseInt(localStorage.getItem("wechat_copy_count") || "0", 10);
-    } catch(e) { copyCount = 0; }
+    try { copyCount = parseInt(localStorage.getItem("wechat_copy_count") || "0", 10); } catch(e) { copyCount = 0; }
 
-    // 配置 marked
     if (window.marked) {
-      marked.setOptions({
-        breaks: true,
-        gfm: true
-      });
+      marked.setOptions({ breaks: true, gfm: true });
     }
 
-    // 拉取 /api/config
     try {
       const resp = await fetch("/api/config", { cache: "no-cache" });
       if (resp.ok) {
         APP_CONFIG = await resp.json();
         applySiteConfig(APP_CONFIG.site);
         populateThemes(APP_CONFIG.themes);
-      } else {
-        throw new Error("HTTP " + resp.status);
-      }
+      } else { throw new Error("HTTP " + resp.status); }
     } catch (err) {
       console.warn("加载 /api/config 失败，使用默认配置：", err);
       useDefaultConfig();
     }
 
-    // 绑定事件
     bindEvents();
-
-    // 首次渲染
     render();
   }
 
-  // ========== 应用站点配置到导航 ==========
   function applySiteConfig(site) {
     if (!site) return;
     if (site.SITE_TITLE) {
@@ -616,26 +690,35 @@ function hello() {
       avatar.style.display = "block";
       avatar.onerror = function() { this.style.display = "none"; };
     }
-    if (site.FOLLOW_LINK) {
-      $("nav-follow").href = site.FOLLOW_LINK;
-    }
     if (site.HELP_DOC) {
       $("help-content").textContent = site.HELP_DOC;
     }
+    // 关注弹窗配置
+    if (site.WECHAT_QR) {
+      $("follow-qr").src = site.WECHAT_QR;
+    }
+    if (site.WECHAT_NAME) {
+      $("follow-name").textContent = site.WECHAT_NAME;
+    }
+    // JoJo 工具箱链接
+    if (site.JOJO_TOOLBOX_URL) {
+      const toolbox = $("nav-toolbox");
+      toolbox.href = site.JOJO_TOOLBOX_URL;
+      toolbox.style.display = "inline-block";
+    }
   }
 
-  // ========== 兜底默认配置（API 不可用时） ==========
   function useDefaultConfig() {
     applySiteConfig({
       SITE_TITLE: "公众号 Markdown 一键排版工具",
-      HELP_DOC: "使用帮助：左侧输入 Markdown，右侧实时预览，点击复制富文本粘贴到公众号后台。"
+      HELP_DOC: "使用帮助：左侧输入 Markdown，右侧实时预览，点击复制富文本粘贴到公众号后台。",
+      WECHAT_NAME: "JoJo的奇妙冒险"
     });
     populateThemes({
       "简约黑": { primary: "#2c2c2c", css: ".content{color:#333;font-size:16px;line-height:1.8;}" }
     });
   }
 
-  // ========== 填充主题下拉 ==========
   function populateThemes(themes) {
     themeSelect.innerHTML = "";
     const keys = Object.keys(themes || {});
@@ -653,42 +736,36 @@ function hello() {
     themeSelect.value = currentThemeKey;
   }
 
-  // ========== 构建完整 CSS（主题 + 自定义覆盖） ==========
   function buildCSS() {
     let css = "";
 
-    // 1. 主题基础 CSS
     if (APP_CONFIG && APP_CONFIG.themes && currentThemeKey && APP_CONFIG.themes[currentThemeKey]) {
       css += APP_CONFIG.themes[currentThemeKey].css || "";
     }
 
-    // 2. 自定义主题色覆盖（替换主题 primary 色）
+    // 自定义主题色：替换主题 primary 色
     const useCustomColor = customColor.value && customColor.value !== "#07c160";
     if (useCustomColor && APP_CONFIG && APP_CONFIG.themes && currentThemeKey) {
       const theme = APP_CONFIG.themes[currentThemeKey];
       if (theme.primary) {
-        // 全局替换主题 primary 色为自定义色
         css = css.split(theme.primary).join(customColor.value);
       }
     }
 
-    // 3. 正文字体覆盖
+    // 字体覆盖
     const fontFamily = fontSelect.value;
     if (fontFamily) {
       css += `\n.content { font-family: ${fontFamily} !important; }\n`;
     }
 
-    // 4. 字号覆盖
-    const h1 = $("size-h1").value, h2 = $("size-h2").value;
-    const h3 = $("size-h3").value, h4 = $("size-h4").value;
-    const body = $("size-body").value;
-    css += `\n.content { font-size: ${body}px !important; }\n`;
-    css += `.content h1 { font-size: ${h1}px !important; }\n`;
-    css += `.content h2 { font-size: ${h2}px !important; }\n`;
-    css += `.content h3 { font-size: ${h3}px !important; }\n`;
-    css += `.content h4 { font-size: ${h4}px !important; }\n`;
+    // 字号覆盖
+    css += `\n.content { font-size: ${$("size-body").value}px !important; }\n`;
+    css += `.content h1 { font-size: ${$("size-h1").value}px !important; }\n`;
+    css += `.content h2 { font-size: ${$("size-h2").value}px !important; }\n`;
+    css += `.content h3 { font-size: ${$("size-h3").value}px !important; }\n`;
+    css += `.content h4 { font-size: ${$("size-h4").value}px !important; }\n`;
 
-    // 5. 用户自定义 CSS
+    // 用户自定义 CSS
     if (customCss.value.trim()) {
       css += "\n/* === 用户自定义 CSS === */\n" + customCss.value + "\n";
     }
@@ -696,38 +773,37 @@ function hello() {
     return css;
   }
 
-  // ========== Markdown → HTML 渲染 ==========
   function render() {
     const md = markdownInput.value;
-
-    // 字数统计
     updateWordCount(md);
 
-    // Markdown 转 HTML
     let html = "";
     if (window.marked && typeof marked.parse === "function") {
       html = marked.parse(md);
     } else {
-      // marked 未加载时的兜底
       html = "<pre style='white-space:pre-wrap;'>" + escapeHtml(md) + "</pre>";
     }
 
+    // 文章头部信息模块（字数+预计阅读时间）
+    if ($("meta-toggle") && $("meta-toggle").checked) {
+      const count = md.replace(/\s/g, "").length;
+      const minutes = Math.max(1, Math.ceil(count / 400));
+      html = `<div style="display:flex;align-items:center;gap:14px;padding:10px 16px;background:#f7f8fa;border-radius:6px;font-size:13px;color:#909399;margin-bottom:20px;border-left:3px solid #dcdfe6;">
+        <span>全文 ${count} 字</span>
+        <span style="color:#e4e7ed;">|</span>
+        <span>预计阅读 ${minutes} 分钟</span>
+      </div>` + html;
+    }
+
     const css = buildCSS();
-
-    // 预览：注入 style + HTML（不做内联，预览更清晰）
     preview.innerHTML = `<style>${css}</style>${html}`;
-
-    // 保存当前 html 和 css 供复制使用
     window.__currentHtml = html;
     window.__currentCss = css;
   }
 
-  // ========== 字数统计 ==========
   function updateWordCount(md) {
-    // 去除空白字符后计数（中英文统一按字符计）
     const count = md.replace(/\s/g, "").length;
     wordCount.textContent = `当前字数：${count} 字`;
-
     if (count > 1500) {
       wordCountBar.classList.add("warning");
       wordCountTip.textContent = "⚠ 已超过 1500 字黄金阅读字数，微信后台粘贴可能会有轻微卡顿，建议分段发布";
@@ -737,17 +813,11 @@ function hello() {
     }
   }
 
-  // ========== 复制富文本 ==========
   async function copyRichText() {
     const html = window.__currentHtml || "";
     const css = window.__currentCss || "";
+    if (!html.trim()) { showToast("内容为空，无法复制"); return; }
 
-    if (!html.trim()) {
-      showToast("内容为空，无法复制");
-      return;
-    }
-
-    // 使用 Juice 做 CSS 内联
     let inlinedHtml = html;
     if (window.juice && typeof juice.inlineContent === "function") {
       try {
@@ -756,43 +826,29 @@ function hello() {
           preserveImportant: true,
           removeStyleTags: true
         });
-      } catch (err) {
-        console.warn("Juice 内联失败，使用原始 HTML：", err);
-      }
+      } catch (err) { console.warn("Juice 内联失败：", err); }
     }
 
-    // 包装在 content div 中
     const finalHtml = `<div class="content">${inlinedHtml}</div>`;
 
-    // 写入剪贴板（富文本 + 纯文本兜底）
     try {
       if (navigator.clipboard && window.ClipboardItem) {
         const blobHtml = new Blob([finalHtml], { type: "text/html" });
         const blobText = new Blob([stripHtml(finalHtml)], { type: "text/plain" });
         await navigator.clipboard.write([
-          new ClipboardItem({
-            "text/html": blobHtml,
-            "text/plain": blobText
-          })
+          new ClipboardItem({ "text/html": blobHtml, "text/plain": blobText })
         ]);
       } else {
-        // 兜底：execCommand
         fallbackCopy(finalHtml);
       }
       onCopySuccess();
     } catch (err) {
       console.error("复制失败：", err);
-      // 尝试兜底
-      try {
-        fallbackCopy(finalHtml);
-        onCopySuccess();
-      } catch (e2) {
-        showToast("复制失败，请手动选择预览区复制");
-      }
+      try { fallbackCopy(finalHtml); onCopySuccess(); }
+      catch (e2) { showToast("复制失败，请手动选择预览区复制"); }
     }
   }
 
-  // 兜底复制方案
   function fallbackCopy(html) {
     const container = document.createElement("div");
     container.innerHTML = html;
@@ -809,35 +865,23 @@ function hello() {
     document.body.removeChild(container);
   }
 
-  // 复制成功后的处理
   function onCopySuccess() {
-    // 按钮反馈
     copyBtn.classList.add("copied");
-    copyBtn.textContent = "✓ 已复制，去公众号粘贴吧";
+    copyBtn.textContent = "✓ 已复制";
     setTimeout(() => {
       copyBtn.classList.remove("copied");
-      copyBtn.textContent = "复制富文本到公众号";
+      copyBtn.textContent = "复制富文本";
     }, 2000);
-
     showToast("富文本已复制，直接粘贴到公众号后台即可");
 
-    // 累计复制次数
     copyCount++;
-    try {
-      localStorage.setItem("wechat_copy_count", String(copyCount));
-    } catch(e) {}
-
-    // 每 3 次触发猫猫弹窗
-    if (copyCount % 3 === 0) {
-      showCatPopup();
-    }
+    try { localStorage.setItem("wechat_copy_count", String(copyCount)); } catch(e) {}
+    if (copyCount % 3 === 0) showCatPopup();
   }
 
-  // ========== 猫猫泪水弹窗 ==========
   function showCatPopup() {
     const articles = (APP_CONFIG && APP_CONFIG.articles) || [];
     const articleBox = $("cat-article");
-
     if (articles.length === 0) {
       articleBox.innerHTML = '<div style="color:#999;font-size:13px;">暂无推荐文章</div>';
     } else {
@@ -845,15 +889,39 @@ function hello() {
       articleBox.innerHTML = `
         <div class="cat-article-title">${escapeHtml(article.title || "推荐文章")}</div>
         ${article.qr_code ? `<img class="cat-article-qr" src="${escapeAttr(article.qr_code)}" alt="文章二维码" referrerpolicy="no-referrer">` : ""}
-        <br>
-        ${article.url ? `<a class="cat-article-link" href="${escapeAttr(article.url)}" target="_blank" rel="noopener">阅读原文</a>` : ""}
+        <div class="cat-scan-tip">请用微信扫码前往阅读</div>
       `;
     }
-
     $("cat-popup").classList.add("active");
   }
 
-  // ========== 工具函数 ==========
+  // 复制公众号名称
+  function copyWechatName() {
+    const name = $("follow-name").textContent;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(name).then(() => {
+        showToast("公众号名称已复制");
+      }).catch(() => {
+        fallbackCopyText(name);
+        showToast("公众号名称已复制");
+      });
+    } else {
+      fallbackCopyText(name);
+      showToast("公众号名称已复制");
+    }
+  }
+
+  function fallbackCopyText(text) {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+  }
+
   function escapeHtml(str) {
     const div = document.createElement("div");
     div.textContent = str;
@@ -874,45 +942,58 @@ function hello() {
     showToast._t = setTimeout(() => toast.classList.remove("show"), 2500);
   }
 
-  // ========== 事件绑定 ==========
   function bindEvents() {
-    // 输入实时渲染（防抖）
     let renderTimer = null;
     markdownInput.addEventListener("input", () => {
       clearTimeout(renderTimer);
       renderTimer = setTimeout(render, 150);
     });
 
-    // 主题切换
     themeSelect.addEventListener("change", () => {
       currentThemeKey = themeSelect.value;
       render();
     });
 
     // 自定义颜色
-    customColor.addEventListener("input", render);
-    $("reset-color").addEventListener("click", () => {
-      customColor.value = "#07c160";
+    customColor.addEventListener("input", () => {
+      updateSwatchActive();
       render();
     });
 
-    // 字体 & 字号
+    // 7 色快捷色板
+    document.querySelectorAll(".swatch").forEach(sw => {
+      sw.addEventListener("click", () => {
+        const color = sw.getAttribute("data-color");
+        customColor.value = color;
+        updateSwatchActive();
+        render();
+      });
+    });
+
+    $("reset-color").addEventListener("click", () => {
+      customColor.value = "#07c160";
+      updateSwatchActive();
+      render();
+    });
+
     fontSelect.addEventListener("change", render);
     ["size-h1","size-h2","size-h3","size-h4","size-body"].forEach(id => {
       $(id).addEventListener("input", render);
     });
 
-    // 自定义 CSS
     let cssTimer = null;
     customCss.addEventListener("input", () => {
       clearTimeout(cssTimer);
       cssTimer = setTimeout(render, 200);
     });
 
-    // 复制按钮
+    // 文章头部信息开关
+    $("meta-toggle").addEventListener("change", render);
+
+    // 复制按钮（在预览头部）
     copyBtn.addEventListener("click", copyRichText);
 
-    // 帮助弹窗
+    // 使用帮助
     $("nav-help").addEventListener("click", () => {
       $("help-modal").classList.add("active");
     });
@@ -920,7 +1001,16 @@ function hello() {
       if (e.target.id === "help-modal") $("help-modal").classList.remove("active");
     });
 
-    // 猫猫弹窗关闭
+    // 关注我 → 弹窗
+    $("nav-follow").addEventListener("click", () => {
+      $("follow-modal").classList.add("active");
+    });
+    $("follow-modal").addEventListener("click", (e) => {
+      if (e.target.id === "follow-modal") $("follow-modal").classList.remove("active");
+    });
+    $("copy-name-btn").addEventListener("click", copyWechatName);
+
+    // 猫猫弹窗
     $("cat-close-btn").addEventListener("click", () => {
       $("cat-popup").classList.remove("active");
     });
@@ -928,16 +1018,27 @@ function hello() {
       if (e.target.id === "cat-popup") $("cat-popup").classList.remove("active");
     });
 
-    // ESC 关闭弹窗
+    // ESC
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         $("help-modal").classList.remove("active");
+        $("follow-modal").classList.remove("active");
         $("cat-popup").classList.remove("active");
       }
     });
   }
 
-  // ========== 启动 ==========
+  function updateSwatchActive() {
+    const current = customColor.value.toLowerCase();
+    document.querySelectorAll(".swatch").forEach(sw => {
+      if (sw.getAttribute("data-color").toLowerCase() === current) {
+        sw.classList.add("active");
+      } else {
+        sw.classList.remove("active");
+      }
+    });
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {
