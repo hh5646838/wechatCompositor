@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>公众号 Markdown 一键排版工具</title>
+<style>
+/* ========== 全局重置与应用 UI 样式（非内容样式） ========== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #f0f2f5;
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ========== 顶部导航 ========== */
+.top-nav {
+  background: #fff;
+  border-bottom: 1px solid #e4e7ed;
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-left { display: flex; align-items: center; gap: 12px; }
+.nav-logo {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, #07c160, #10ad56);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 800; font-size: 18px;
+  flex-shrink: 0;
+}
+.nav-title { font-size: 17px; font-weight: 700; color: #1a1a1a; }
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.nav-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  object-fit: cover; border: 2px solid #e4e7ed;
+  cursor: pointer;
+}
+.nav-follow {
+  padding: 6px 16px;
+  background: #07c160;
+  color: #fff !important;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.nav-follow:hover { background: #06a552; }
+.nav-help {
+  padding: 6px 14px;
+  border: 1px solid #dcdfe6;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  background: #fff;
+  transition: all 0.2s;
+}
+.nav-help:hover { border-color: #07c160; color: #07c160; }
+
+/* ========== 控制面板 ========== */
+.control-panel {
+  background: #fff;
+  border-bottom: 1px solid #e4e7ed;
+  padding: 14px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: flex-end;
+}
+.control-group { display: flex; flex-direction: column; gap: 4px; }
+.control-group label {
+  font-size: 12px;
+  color: #909399;
+  font-weight: 500;
+}
+.control-group select,
+.control-group input[type="color"],
+.control-group input[type="number"],
+.control-group input[type="text"] {
+  padding: 6px 10px;
+  border: 1px solid #dcdfe6;
+  border-radius: 6px;
+  font-size: 13px;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.control-group select:focus,
+.control-group input:focus { border-color: #07c160; }
+.control-group input[type="color"] {
+  width: 42px; height: 32px; padding: 2px; cursor: pointer;
+}
+.size-row { display: flex; gap: 8px; align-items: center; }
+.size-row .control-group { min-width: 60px; }
+.size-row .control-group input { width: 60px; text-align: center; }
+.custom-css-group { flex: 1; min-width: 280px; }
+.custom-css-group textarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 8px 10px;
+  border: 1px solid #dcdfe6;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  resize: vertical;
+  outline: none;
+  line-height: 1.5;
+}
+.custom-css-group textarea:focus { border-color: #07c160; }
+.css-warning {
+  font-size: 11px;
+  color: #e6a23c;
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
+/* ========== 双栏编辑器 ========== */
+.editor-container {
+  flex: 1;
+  display: flex;
+  gap: 0;
+  min-height: 0;
+  padding: 16px 24px;
+}
+.editor-pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.editor-pane:first-child { margin-right: 8px; }
+.pane-header {
+  padding: 10px 16px;
+  background: #fafafa;
+  border-bottom: 1px solid #ebeef5;
+  font-size: 13px;
+  font-weight: 600;
+  color: #606266;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#markdown-input {
+  flex: 1;
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 20px;
+  font-size: 15px;
+  line-height: 1.8;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  resize: none;
+  background: #fff;
+  color: #333;
+}
+.preview-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 28px;
+}
+#preview { max-width: 100%; }
+
+/* ========== 字数统计 ========== */
+.word-count-bar {
+  padding: 8px 16px;
+  border-top: 1px solid #ebeef5;
+  font-size: 13px;
+  color: #909399;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fafafa;
+}
+.word-count-bar.warning {
+  color: #e6a23c;
+  font-weight: 600;
+  background: #fdf6ec;
+}
+.word-count-tip { font-size: 12px; }
+
+/* ========== 底部操作栏 ========== */
+.action-bar {
+  padding: 16px 24px;
+  background: #fff;
+  border-top: 1px solid #e4e7ed;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+.btn-copy {
+  padding: 12px 48px;
+  background: linear-gradient(135deg, #07c160, #10ad56);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(7,193,96,0.3);
+}
+.btn-copy:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(7,193,96,0.4); }
+.btn-copy:active { transform: translateY(0); }
+.btn-copy.copied { background: linear-gradient(135deg, #67c23a, #5daf34); }
+
+/* ========== 弹窗通用 ========== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(2px);
+}
+.modal-overlay.active { display: flex; }
+.modal-box {
+  background: #fff;
+  border-radius: 16px;
+  max-width: 520px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  animation: modalIn 0.3s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.modal-header {
+  padding: 20px 24px 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  border-bottom: 1px solid #f0f0f0;
+}
+.modal-body { padding: 16px 24px; font-size: 14px; line-height: 1.8; color: #555; white-space: pre-wrap; }
+.modal-footer { padding: 12px 24px 20px; display: flex; justify-content: flex-end; }
+.modal-close-btn {
+  padding: 8px 28px;
+  background: #f5f7fa;
+  border: 1px solid #dcdfe6;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.modal-close-btn:hover { background: #e8eaed; }
+
+/* ========== 猫猫泪水弹窗 ========== */
+.cat-popup .modal-box {
+  max-width: 400px;
+  text-align: center;
+  overflow: hidden;
+}
+.cat-svg-wrap {
+  padding: 28px 0 12px;
+  background: linear-gradient(180deg, #fff5f5, #fff);
+}
+.cat-svg-wrap svg { width: 90px; height: 90px; }
+.cat-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #c41e3a;
+  margin: 8px 0 12px;
+}
+.cat-message {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.8;
+  padding: 0 24px;
+  margin-bottom: 16px;
+}
+.cat-article {
+  margin: 0 24px 16px;
+  padding: 16px;
+  background: #fafafa;
+  border-radius: 10px;
+  border: 1px solid #f0f0f0;
+}
+.cat-article-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.cat-article-qr {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  border-radius: 6px;
+  margin: 0 auto 10px;
+  display: block;
+  background: #fff;
+  padding: 4px;
+  border: 1px solid #eee;
+}
+.cat-article-link {
+  display: inline-block;
+  padding: 6px 20px;
+  background: #07c160;
+  color: #fff !important;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.cat-footer {
+  padding: 0 24px 20px;
+}
+.cat-close-btn {
+  width: 100%;
+  padding: 10px;
+  background: #f5f7fa;
+  border: 1px solid #dcdfe6;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #909399;
+  transition: all 0.2s;
+}
+.cat-close-btn:hover { background: #e8eaed; color: #606266; }
+
+/* ========== Toast ========== */
+.toast {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  z-index: 2000;
+  opacity: 0;
+  transition: all 0.3s;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ========== 响应式 ========== */
+@media (max-width: 900px) {
+  .editor-container { flex-direction: column; padding: 12px; }
+  .editor-pane:first-child { margin-right: 0; margin-bottom: 12px; min-height: 300px; }
+  .control-panel { padding: 12px; gap: 12px; }
+  .top-nav { padding: 0 12px; }
+  .nav-title { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ========== 顶部导航 ========== -->
+<nav class="top-nav">
+  <div class="nav-left">
+    <div class="nav-logo">M</div>
+    <span class="nav-title" id="nav-title">公众号 Markdown 一键排版工具</span>
+  </div>
+  <div class="nav-right">
+    <img class="nav-avatar" id="nav-avatar" src="" alt="站长头像" style="display:none;">
+    <a class="nav-follow" id="nav-follow" href="#" target="_blank" rel="noopener">关注我</a>
+    <button class="nav-help" id="nav-help">使用帮助</button>
+  </div>
+</nav>
+
+<!-- ========== 控制面板 ========== -->
+<div class="control-panel">
+  <div class="control-group">
+    <label>预设主题</label>
+    <select id="theme-select">
+      <option value="">加载中...</option>
+    </select>
+  </div>
+  <div class="control-group">
+    <label>自定义主题色</label>
+    <div style="display:flex;gap:6px;align-items:center;">
+      <input type="color" id="custom-color" value="#07c160" title="选择主题色">
+      <button id="reset-color" style="padding:4px 8px;font-size:12px;border:1px solid #dcdfe6;border-radius:4px;background:#fff;cursor:pointer;">重置</button>
+    </div>
+  </div>
+  <div class="control-group">
+    <label>正文字体</label>
+    <select id="font-select">
+      <option value='-apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif'>系统默认（无衬线）</option>
+      <option value='"Songti SC", "SimSun", "PingFang SC", serif'>宋体（衬线）</option>
+      <option value='Georgia, "Times New Roman", "PingFang SC", serif'>Georgia 学术衬线</option>
+      <option value='"KaiTi", "STKaiti", "PingFang SC", serif'>楷体</option>
+      <option value='"Microsoft YaHei", "PingFang SC", sans-serif'>微软雅黑</option>
+    </select>
+  </div>
+  <div class="size-row">
+    <div class="control-group"><label>H1</label><input type="number" id="size-h1" value="24" min="14" max="40"></div>
+    <div class="control-group"><label>H2</label><input type="number" id="size-h2" value="20" min="14" max="36"></div>
+    <div class="control-group"><label>H3</label><input type="number" id="size-h3" value="18" min="14" max="32"></div>
+    <div class="control-group"><label>H4</label><input type="number" id="size-h4" value="16" min="12" max="28"></div>
+    <div class="control-group"><label>正文</label><input type="number" id="size-body" value="16" min="12" max="24"></div>
+  </div>
+  <div class="control-group custom-css-group">
+    <label>自定义 CSS（追加到主题样式之后）</label>
+    <textarea id="custom-css" placeholder="/* 在此输入额外 CSS，例如：.content p { text-indent: 2em; } */"></textarea>
+    <div class="css-warning">⚠ 微信公众号不支持伪类 :hover、:active、外部字体 @font-face、JavaScript 等，粘贴后可能被清除</div>
+  </div>
+</div>
+
+<!-- ========== 双栏编辑器 ========== -->
+<div class="editor-container">
+  <div class="editor-pane">
+    <div class="pane-header">
+      <span>Markdown 编辑</span>
+      <span style="font-size:11px;color:#c0c4cc;">支持标准 Markdown 语法</span>
+    </div>
+    <textarea id="markdown-input" spellcheck="false" placeholder="在此输入 Markdown 内容..."># 欢迎使用公众号 Markdown 一键排版工具
+
+这是一个**完全免费**的公众号排版工具，左侧输入 Markdown，右侧实时预览，一键复制富文本到公众号后台。
+
+## 核心特性
+
+- 支持标准 Markdown 语法
+- 多套预设主题，一键切换
+- 自定义主题色、字体、字号
+- Juice CSS 内联，完美兼容微信
+- 超过 1500 字温馨提醒
+
+> 好的排版，是对读者最大的尊重。
+
+### 代码示例
+
+\`\`\`javascript
+function hello() {
+  console.log("Hello, WeChat!");
+}
+\`\`\`
+
+### 表格示例
+
+| 功能 | 支持 |
+|------|------|
+| 标题 | H1-H4 |
+| 列表 | 有序/无序 |
+| 代码 | 行内/块级 |
+| 图片 | 完整支持 |
+
+---
+
+**开始你的排版之旅吧！**</textarea>
+    <div class="word-count-bar" id="word-count-bar">
+      <span id="word-count">当前字数：0 字</span>
+      <span class="word-count-tip" id="word-count-tip"></span>
+    </div>
+  </div>
+  <div class="editor-pane">
+    <div class="pane-header">
+      <span>实时预览</span>
+      <span style="font-size:11px;color:#c0c4cc;">与公众号后台效果一致</span>
+    </div>
+    <div class="preview-wrapper">
+      <div id="preview" class="content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 底部操作栏 ========== -->
+<div class="action-bar">
+  <button class="btn-copy" id="copy-btn">复制富文本到公众号</button>
+</div>
+
+<!-- ========== 使用帮助弹窗 ========== -->
+<div class="modal-overlay" id="help-modal">
+  <div class="modal-box">
+    <div class="modal-header">使用帮助 & 微信排版限制</div>
+    <div class="modal-body" id="help-content">加载中...</div>
+    <div class="modal-footer">
+      <button class="modal-close-btn" onclick="document.getElementById('help-modal').classList.remove('active')">我知道了</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 猫猫泪水弹窗 ========== -->
+<div class="modal-overlay cat-popup" id="cat-popup">
+  <div class="modal-box">
+    <div class="cat-svg-wrap">
+      <!-- 哭泣猫猫 SVG -->
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- 猫耳朵 -->
+        <polygon points="22,30 30,8 42,28" fill="#f5d0a9" stroke="#e0b88c" stroke-width="1.5"/>
+        <polygon points="78,30 70,8 58,28" fill="#f5d0a9" stroke="#e0b88c" stroke-width="1.5"/>
+        <polygon points="26,26 31,14 38,26" fill="#ffb6c1"/>
+        <polygon points="74,26 69,14 62,26" fill="#ffb6c1"/>
+        <!-- 猫脸 -->
+        <ellipse cx="50" cy="55" rx="34" ry="30" fill="#f5d0a9" stroke="#e0b88c" stroke-width="1.5"/>
+        <!-- 眼睛（闭着哭泣） -->
+        <path d="M32 50 Q37 46 42 50" stroke="#5a4a3a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M58 50 Q63 46 68 50" stroke="#5a4a3a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <!-- 泪水 -->
+        <ellipse cx="35" cy="58" rx="3" ry="5" fill="#7ec8e3" opacity="0.8"/>
+        <ellipse cx="65" cy="58" rx="3" ry="5" fill="#7ec8e3" opacity="0.8"/>
+        <path d="M35 62 Q34 68 33 72" stroke="#7ec8e3" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
+        <path d="M65 62 Q66 68 67 72" stroke="#7ec8e3" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
+        <!-- 鼻子 -->
+        <polygon points="47,60 53,60 50,64" fill="#ff9999"/>
+        <!-- 嘴巴（难过） -->
+        <path d="M44 70 Q50 65 56 70" stroke="#5a4a3a" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- 胡须 -->
+        <line x1="20" y1="60" x2="32" y2="62" stroke="#d4b896" stroke-width="1.2"/>
+        <line x1="20" y1="65" x2="32" y2="65" stroke="#d4b896" stroke-width="1.2"/>
+        <line x1="80" y1="60" x2="68" y2="62" stroke="#d4b896" stroke-width="1.2"/>
+        <line x1="80" y1="65" x2="68" y2="65" stroke="#d4b896" stroke-width="1.2"/>
+      </svg>
+    </div>
+    <div class="cat-title">猫猫泪水浸湿眼眶</div>
+    <div class="cat-message">排版已成功复制！快去阅读我的文章支持我吧。当然你也可以直接关掉弹窗继续免费使用，哭泣 ( T﹏T )</div>
+    <div class="cat-article" id="cat-article">
+      <!-- 动态填充 -->
+    </div>
+    <div class="cat-footer">
+      <button class="cat-close-btn" id="cat-close-btn">关闭弹窗，继续免费使用</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- ========== CDN：marked.js & juice.js ========== -->
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/juice@8.1.0/client.js"></script>
+
+<script>
+(function() {
+  "use strict";
+
+  // ========== 全局状态 ==========
+  let APP_CONFIG = null;       // /api/config 返回的完整配置
+  let currentThemeKey = null;  // 当前选中的主题 key
+  let copyCount = 0;           // 累计复制次数（从 localStorage 读取）
+
+  // DOM 引用
+  const $ = (id) => document.getElementById(id);
+  const markdownInput = $("markdown-input");
+  const preview = $("preview");
+  const themeSelect = $("theme-select");
+  const customColor = $("custom-color");
+  const fontSelect = $("font-select");
+  const customCss = $("custom-css");
+  const copyBtn = $("copy-btn");
+  const wordCount = $("word-count");
+  const wordCountBar = $("word-count-bar");
+  const wordCountTip = $("word-count-tip");
+  const toast = $("toast");
+
+  // ========== 初始化：拉取后端配置 ==========
+  async function init() {
+    // 读取复制次数
+    try {
+      copyCount = parseInt(localStorage.getItem("wechat_copy_count") || "0", 10);
+    } catch(e) { copyCount = 0; }
+
+    // 配置 marked
+    if (window.marked) {
+      marked.setOptions({
+        breaks: true,
+        gfm: true
+      });
+    }
+
+    // 拉取 /api/config
+    try {
+      const resp = await fetch("/api/config", { cache: "no-cache" });
+      if (resp.ok) {
+        APP_CONFIG = await resp.json();
+        applySiteConfig(APP_CONFIG.site);
+        populateThemes(APP_CONFIG.themes);
+      } else {
+        throw new Error("HTTP " + resp.status);
+      }
+    } catch (err) {
+      console.warn("加载 /api/config 失败，使用默认配置：", err);
+      useDefaultConfig();
+    }
+
+    // 绑定事件
+    bindEvents();
+
+    // 首次渲染
+    render();
+  }
+
+  // ========== 应用站点配置到导航 ==========
+  function applySiteConfig(site) {
+    if (!site) return;
+    if (site.SITE_TITLE) {
+      $("nav-title").textContent = site.SITE_TITLE;
+      document.title = site.SITE_TITLE;
+    }
+    if (site.AVATAR_URL) {
+      const avatar = $("nav-avatar");
+      avatar.src = site.AVATAR_URL;
+      avatar.style.display = "block";
+      avatar.onerror = function() { this.style.display = "none"; };
+    }
+    if (site.FOLLOW_LINK) {
+      $("nav-follow").href = site.FOLLOW_LINK;
+    }
+    if (site.HELP_DOC) {
+      $("help-content").textContent = site.HELP_DOC;
+    }
+  }
+
+  // ========== 兜底默认配置（API 不可用时） ==========
+  function useDefaultConfig() {
+    applySiteConfig({
+      SITE_TITLE: "公众号 Markdown 一键排版工具",
+      HELP_DOC: "使用帮助：左侧输入 Markdown，右侧实时预览，点击复制富文本粘贴到公众号后台。"
+    });
+    populateThemes({
+      "简约黑": { primary: "#2c2c2c", css: ".content{color:#333;font-size:16px;line-height:1.8;}" }
+    });
+  }
+
+  // ========== 填充主题下拉 ==========
+  function populateThemes(themes) {
+    themeSelect.innerHTML = "";
+    const keys = Object.keys(themes || {});
+    if (keys.length === 0) {
+      themeSelect.innerHTML = '<option value="">无可用主题</option>';
+      return;
+    }
+    keys.forEach((key, idx) => {
+      const opt = document.createElement("option");
+      opt.value = key;
+      opt.textContent = key;
+      themeSelect.appendChild(opt);
+      if (idx === 0) currentThemeKey = key;
+    });
+    themeSelect.value = currentThemeKey;
+  }
+
+  // ========== 构建完整 CSS（主题 + 自定义覆盖） ==========
+  function buildCSS() {
+    let css = "";
+
+    // 1. 主题基础 CSS
+    if (APP_CONFIG && APP_CONFIG.themes && currentThemeKey && APP_CONFIG.themes[currentThemeKey]) {
+      css += APP_CONFIG.themes[currentThemeKey].css || "";
+    }
+
+    // 2. 自定义主题色覆盖（替换主题 primary 色）
+    const useCustomColor = customColor.value && customColor.value !== "#07c160";
+    if (useCustomColor && APP_CONFIG && APP_CONFIG.themes && currentThemeKey) {
+      const theme = APP_CONFIG.themes[currentThemeKey];
+      if (theme.primary) {
+        // 全局替换主题 primary 色为自定义色
+        css = css.split(theme.primary).join(customColor.value);
+      }
+    }
+
+    // 3. 正文字体覆盖
+    const fontFamily = fontSelect.value;
+    if (fontFamily) {
+      css += `\n.content { font-family: ${fontFamily} !important; }\n`;
+    }
+
+    // 4. 字号覆盖
+    const h1 = $("size-h1").value, h2 = $("size-h2").value;
+    const h3 = $("size-h3").value, h4 = $("size-h4").value;
+    const body = $("size-body").value;
+    css += `\n.content { font-size: ${body}px !important; }\n`;
+    css += `.content h1 { font-size: ${h1}px !important; }\n`;
+    css += `.content h2 { font-size: ${h2}px !important; }\n`;
+    css += `.content h3 { font-size: ${h3}px !important; }\n`;
+    css += `.content h4 { font-size: ${h4}px !important; }\n`;
+
+    // 5. 用户自定义 CSS
+    if (customCss.value.trim()) {
+      css += "\n/* === 用户自定义 CSS === */\n" + customCss.value + "\n";
+    }
+
+    return css;
+  }
+
+  // ========== Markdown → HTML 渲染 ==========
+  function render() {
+    const md = markdownInput.value;
+
+    // 字数统计
+    updateWordCount(md);
+
+    // Markdown 转 HTML
+    let html = "";
+    if (window.marked && typeof marked.parse === "function") {
+      html = marked.parse(md);
+    } else {
+      // marked 未加载时的兜底
+      html = "<pre style='white-space:pre-wrap;'>" + escapeHtml(md) + "</pre>";
+    }
+
+    const css = buildCSS();
+
+    // 预览：注入 style + HTML（不做内联，预览更清晰）
+    preview.innerHTML = `<style>${css}</style>${html}`;
+
+    // 保存当前 html 和 css 供复制使用
+    window.__currentHtml = html;
+    window.__currentCss = css;
+  }
+
+  // ========== 字数统计 ==========
+  function updateWordCount(md) {
+    // 去除空白字符后计数（中英文统一按字符计）
+    const count = md.replace(/\s/g, "").length;
+    wordCount.textContent = `当前字数：${count} 字`;
+
+    if (count > 1500) {
+      wordCountBar.classList.add("warning");
+      wordCountTip.textContent = "⚠ 已超过 1500 字黄金阅读字数，微信后台粘贴可能会有轻微卡顿，建议分段发布";
+    } else {
+      wordCountBar.classList.remove("warning");
+      wordCountTip.textContent = "";
+    }
+  }
+
+  // ========== 复制富文本 ==========
+  async function copyRichText() {
+    const html = window.__currentHtml || "";
+    const css = window.__currentCss || "";
+
+    if (!html.trim()) {
+      showToast("内容为空，无法复制");
+      return;
+    }
+
+    // 使用 Juice 做 CSS 内联
+    let inlinedHtml = html;
+    if (window.juice && typeof juice.inlineContent === "function") {
+      try {
+        inlinedHtml = juice.inlineContent(html, css, {
+          inlinePseudoElements: false,
+          preserveImportant: true,
+          removeStyleTags: true
+        });
+      } catch (err) {
+        console.warn("Juice 内联失败，使用原始 HTML：", err);
+      }
+    }
+
+    // 包装在 content div 中
+    const finalHtml = `<div class="content">${inlinedHtml}</div>`;
+
+    // 写入剪贴板（富文本 + 纯文本兜底）
+    try {
+      if (navigator.clipboard && window.ClipboardItem) {
+        const blobHtml = new Blob([finalHtml], { type: "text/html" });
+        const blobText = new Blob([stripHtml(finalHtml)], { type: "text/plain" });
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            "text/html": blobHtml,
+            "text/plain": blobText
+          })
+        ]);
+      } else {
+        // 兜底：execCommand
+        fallbackCopy(finalHtml);
+      }
+      onCopySuccess();
+    } catch (err) {
+      console.error("复制失败：", err);
+      // 尝试兜底
+      try {
+        fallbackCopy(finalHtml);
+        onCopySuccess();
+      } catch (e2) {
+        showToast("复制失败，请手动选择预览区复制");
+      }
+    }
+  }
+
+  // 兜底复制方案
+  function fallbackCopy(html) {
+    const container = document.createElement("div");
+    container.innerHTML = html;
+    container.style.position = "fixed";
+    container.style.left = "-9999px";
+    document.body.appendChild(container);
+    const range = document.createRange();
+    range.selectNodeContents(container);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    document.execCommand("copy");
+    sel.removeAllRanges();
+    document.body.removeChild(container);
+  }
+
+  // 复制成功后的处理
+  function onCopySuccess() {
+    // 按钮反馈
+    copyBtn.classList.add("copied");
+    copyBtn.textContent = "✓ 已复制，去公众号粘贴吧";
+    setTimeout(() => {
+      copyBtn.classList.remove("copied");
+      copyBtn.textContent = "复制富文本到公众号";
+    }, 2000);
+
+    showToast("富文本已复制，直接粘贴到公众号后台即可");
+
+    // 累计复制次数
+    copyCount++;
+    try {
+      localStorage.setItem("wechat_copy_count", String(copyCount));
+    } catch(e) {}
+
+    // 每 3 次触发猫猫弹窗
+    if (copyCount % 3 === 0) {
+      showCatPopup();
+    }
+  }
+
+  // ========== 猫猫泪水弹窗 ==========
+  function showCatPopup() {
+    const articles = (APP_CONFIG && APP_CONFIG.articles) || [];
+    const articleBox = $("cat-article");
+
+    if (articles.length === 0) {
+      articleBox.innerHTML = '<div style="color:#999;font-size:13px;">暂无推荐文章</div>';
+    } else {
+      const article = articles[Math.floor(Math.random() * articles.length)];
+      articleBox.innerHTML = `
+        <div class="cat-article-title">${escapeHtml(article.title || "推荐文章")}</div>
+        ${article.qr_code ? `<img class="cat-article-qr" src="${escapeAttr(article.qr_code)}" alt="文章二维码" referrerpolicy="no-referrer">` : ""}
+        <br>
+        ${article.url ? `<a class="cat-article-link" href="${escapeAttr(article.url)}" target="_blank" rel="noopener">阅读原文</a>` : ""}
+      `;
+    }
+
+    $("cat-popup").classList.add("active");
+  }
+
+  // ========== 工具函数 ==========
+  function escapeHtml(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+  }
+  function escapeAttr(str) {
+    return String(str).replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+  function stripHtml(html) {
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    return div.textContent || div.innerText || "";
+  }
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => toast.classList.remove("show"), 2500);
+  }
+
+  // ========== 事件绑定 ==========
+  function bindEvents() {
+    // 输入实时渲染（防抖）
+    let renderTimer = null;
+    markdownInput.addEventListener("input", () => {
+      clearTimeout(renderTimer);
+      renderTimer = setTimeout(render, 150);
+    });
+
+    // 主题切换
+    themeSelect.addEventListener("change", () => {
+      currentThemeKey = themeSelect.value;
+      render();
+    });
+
+    // 自定义颜色
+    customColor.addEventListener("input", render);
+    $("reset-color").addEventListener("click", () => {
+      customColor.value = "#07c160";
+      render();
+    });
+
+    // 字体 & 字号
+    fontSelect.addEventListener("change", render);
+    ["size-h1","size-h2","size-h3","size-h4","size-body"].forEach(id => {
+      $(id).addEventListener("input", render);
+    });
+
+    // 自定义 CSS
+    let cssTimer = null;
+    customCss.addEventListener("input", () => {
+      clearTimeout(cssTimer);
+      cssTimer = setTimeout(render, 200);
+    });
+
+    // 复制按钮
+    copyBtn.addEventListener("click", copyRichText);
+
+    // 帮助弹窗
+    $("nav-help").addEventListener("click", () => {
+      $("help-modal").classList.add("active");
+    });
+    $("help-modal").addEventListener("click", (e) => {
+      if (e.target.id === "help-modal") $("help-modal").classList.remove("active");
+    });
+
+    // 猫猫弹窗关闭
+    $("cat-close-btn").addEventListener("click", () => {
+      $("cat-popup").classList.remove("active");
+    });
+    $("cat-popup").addEventListener("click", (e) => {
+      if (e.target.id === "cat-popup") $("cat-popup").classList.remove("active");
+    });
+
+    // ESC 关闭弹窗
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        $("help-modal").classList.remove("active");
+        $("cat-popup").classList.remove("active");
+      }
+    });
+  }
+
+  // ========== 启动 ==========
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
