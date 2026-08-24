@@ -602,17 +602,17 @@ function hello() {
 <!-- ===== 关注公众号弹窗 ===== -->
 <div class="modal-overlay follow-modal" id="follow-modal">
   <div class="modal-box">
-    <div class="modal-header" style="text-align:center;border-bottom:none;padding-bottom:4px;">关注公众号</div>
+    <div class="modal-header" id="follow-title" style="text-align:center;border-bottom:none;padding-bottom:4px;">关注公众号</div>
     <div class="modal-body" style="padding-top:8px;">
       <img class="follow-qr" id="follow-qr" src="" alt="公众号二维码" referrerpolicy="no-referrer">
-      <div class="follow-tip">微信扫一扫，关注我获取更多排版技巧</div>
+      <div class="follow-tip" id="follow-tip">微信扫一扫，关注我获取更多排版技巧</div>
       <div class="follow-name-row">
         <span class="follow-name" id="follow-name">公众号名称</span>
         <button class="btn-copy-name" id="copy-name-btn">复制名称</button>
       </div>
     </div>
     <div class="modal-footer" style="justify-content:center;">
-      <button class="modal-close-btn" onclick="document.getElementById('follow-modal').classList.remove('active')">关闭</button>
+      <button class="modal-close-btn" id="follow-close-btn" onclick="document.getElementById('follow-modal').classList.remove('active')">关闭</button>
     </div>
   </div>
 </div>
@@ -728,6 +728,11 @@ function hello() {
     if (site.WECHAT_NAME) {
       $("follow-name").textContent = site.WECHAT_NAME;
     }
+    // 关注弹窗文案配置
+    const followCfg = window.FOLLOW_POPUP || {};
+    if (followCfg.title) $("follow-title").textContent = followCfg.title;
+    if (followCfg.scanTip) $("follow-tip").textContent = followCfg.scanTip;
+    if (followCfg.closeBtn) $("follow-close-btn").textContent = followCfg.closeBtn;
     // JoJo 工具箱链接
     if (site.JOJO_TOOLBOX_URL) {
       const toolbox = $("nav-toolbox");
@@ -917,10 +922,12 @@ function hello() {
   function startCatCountdown() {
     if (catCountdownTimer) clearInterval(catCountdownTimer);
     const btn = $("cat-close-btn");
-    let seconds = 3;
-    btn.disabled = true;
+    let seconds = (window.CAT_POPUP && window.CAT_POPUP.countdown) ? parseInt(window.CAT_POPUP.countdown, 10) : 3;
+    if (isNaN(seconds) || seconds < 0) seconds = 3;
+    btn.disabled = seconds > 0;
     btn.classList.add("counting");
-    btn.textContent = seconds + "秒后可关闭";
+    btn.textContent = seconds > 0 ? seconds + "秒后可关闭" : "已知晓，关闭继续使用";
+    if (seconds <= 0) { btn.classList.remove("counting"); return; }
     catCountdownTimer = setInterval(() => {
       seconds--;
       if (seconds > 0) {
