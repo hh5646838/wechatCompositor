@@ -8,9 +8,9 @@ window.SITE_CONFIG = {
       SITE_TITLE: "公众号 Markdown 一键排版工具",
       AVATAR_URL: "https://mmbiz.qpic.cn/sz_mmbiz_png/GgHxichLUZPicibicDv6nibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibic/640?wx_fmt=png",
       FOLLOW_LINK: "https://mp.weixin.qq.com/",
-      WECHAT_QR: "https://mmbiz.qpic.cn/sz_mmbiz_png/GgHxichLUZPicibicDv6nibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibic/640?wx_fmt=png",
-      WECHAT_NAME: "JoJo的奇妙冒险",
-      JOJO_TOOLBOX_URL: "https://jojo-ai-toolbox.example.com",
+      WECHAT_QR: "https://res.cloudinary.com/vljhnkvn/image/upload/w_300,f_auto,q_auto/v1787156531/Weixin_Image_20260813161055_2366_2.jpg",
+      WECHAT_NAME: "JoJo的AI工具箱",
+      JOJO_TOOLBOX_URL: "hh5646838.github.io/aitools/",
       HELP_DOC: "【使用帮助】\n\n1. 在左侧编辑区输入 Markdown 文本，右侧实时预览排版效果。\n2. 在控制面板调节字体、字号，再选择预设主题或自定义主题色。\n3. 可在「自定义 CSS」框中追加额外样式（仅作用于预览与复制结果）。\n4. 点击预览区右上角「复制富文本」按钮，然后直接粘贴到公众号后台编辑器即可。\n\n【微信公众号排版限制说明】\n- 不支持 :hover、:active、:before、:after 等伪类与伪元素；\n- 不支持 @font-face 外部字体，只能使用系统自带字体；\n- 不支持 <script> 与大部分 JavaScript；\n- 部分 CSS 属性（如 position:fixed、overflow）会被过滤；\n- class / id 选择器在粘贴后可能被清除，因此本工具做 CSS 内联，最大化兼容；\n- 图片建议先上传到公众号素材库获取 mmbiz 链接，避免防盗链失效。"
     };
 
@@ -19,7 +19,7 @@ window.CAT_POPUP = {
   title: "猫猫泪水浸湿眼眶",
   message: "排版已成功复制！关注公众号获取更多排版技巧，当然你也可以关掉弹窗继续免费使用，哭泣 ( T﹏T )",
   scanTip: "微信扫一扫，关注公众号",
-  countdown: 3
+  countdown: 5
 };
 
 // ===== 3. 关注公众号弹窗文案配置 =====
