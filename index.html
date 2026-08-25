@@ -101,6 +101,19 @@ a { color: inherit; text-decoration: none; }
 }
 .control-group select:focus,
 .control-group input:focus { border-color: #07c160; }
+.btn-more-themes {
+  margin-top: 6px;
+  padding: 5px 12px;
+  background: #fff;
+  border: 1px solid #dcdfe6;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #606266;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.btn-more-themes:hover { border-color: #07c160; color: #07c160; }
 .control-group input[type="color"] {
   width: 38px; height: 32px; padding: 2px; cursor: pointer; border-radius: 6px;
 }
@@ -180,6 +193,21 @@ a { color: inherit; text-decoration: none; }
 }
 .pane-header-right { display: flex; align-items: center; gap: 10px; }
 .pane-note { font-size: 11px; color: #c0c4cc; font-weight: 400; }
+.btn-clear {
+  padding: 3px 12px;
+  background: #fff;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #909399;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-clear:hover { border-color: #f56c6c; color: #f56c6c; }
+
+/* 导航移动端短文本 */
+.nav-link-mobile { display: none; }
+.nav-link-full { display: inline; }
 
 /* 预览头部的复制按钮 */
 .btn-copy-header {
@@ -420,6 +448,103 @@ a { color: inherit; text-decoration: none; }
   opacity: 0.7;
 }
 
+/* ===== 更多主题弹窗 ===== */
+.modal-close-x {
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #909399;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+.modal-close-x:hover { color: #f56c6c; }
+.modal-header-right { display: flex; align-items: center; gap: 10px; }
+.modal-header-right .btn-apply-theme { padding: 6px 16px; font-size: 12px; }
+.more-themes-box .modal-header { display: flex; justify-content: space-between; align-items: center; }
+.more-themes-box {
+  max-width: 820px;
+  width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.more-themes-body {
+  display: flex;
+  gap: 0;
+  flex: 1;
+  overflow: hidden;
+}
+.more-themes-list {
+  width: 180px;
+  flex-shrink: 0;
+  border-right: 1px solid #ebeef5;
+  padding: 12px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.theme-item-btn {
+  padding: 10px 14px;
+  background: #fff;
+  border: 1px solid #dcdfe6;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #606266;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.theme-item-btn:hover { border-color: #07c160; color: #07c160; }
+.theme-item-btn.active { background: #07c160; color: #fff; border-color: #07c160; }
+.theme-color-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+.more-themes-preview {
+  flex: 1;
+  padding: 16px 20px;
+  overflow-y: auto;
+  background: #fafafa;
+}
+.preview-label {
+  font-size: 12px;
+  color: #909399;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.preview-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ebeef5;
+  min-height: 300px;
+}
+.preview-apply-bar {
+  margin-top: 14px;
+  text-align: right;
+}
+.btn-apply-theme {
+  padding: 8px 24px;
+  background: linear-gradient(135deg, #07c160, #10ad56);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-apply-theme:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(7,193,96,0.3); }
+
 /* ===== Toast ===== */
 .toast {
   position: fixed;
@@ -443,9 +568,16 @@ a { color: inherit; text-decoration: none; }
   .editor-container { flex-direction: column; padding: 12px; }
   .editor-pane:first-child { margin-right: 0; margin-bottom: 12px; min-height: 300px; }
   .control-panel { padding: 12px; gap: 12px; }
-  .top-nav { padding: 0 12px; }
-  .nav-title { font-size: 14px; }
+  .top-nav { padding: 0 10px; gap: 6px; }
+  .nav-title { font-size: 13px; max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .nav-right { gap: 6px; }
+  .nav-link { padding: 5px 8px; font-size: 12px; }
+  .nav-follow { padding: 5px 10px; font-size: 12px; }
+  .nav-link-full { display: none; }
+  .nav-link-mobile { display: inline; }
+  .nav-avatar { width: 28px; height: 28px; }
   .pane-note { display: none; }
+  .btn-clear { padding: 3px 10px; font-size: 11px; }
 }
 </style>
 </head>
@@ -459,7 +591,10 @@ a { color: inherit; text-decoration: none; }
   </div>
   <div class="nav-right">
     <img class="nav-avatar" id="nav-avatar" src="" alt="站长头像" style="display:none;">
-    <a class="nav-link" id="nav-toolbox" href="#" target="_blank" rel="noopener" style="display:none;">JoJo的AI工具箱</a>
+    <a class="nav-link" id="nav-toolbox" href="#" target="_blank" rel="noopener" style="display:none;">
+      <span class="nav-link-full">JoJo的AI工具箱</span>
+      <span class="nav-link-mobile">工具箱</span>
+    </a>
     <button class="nav-link" id="nav-help">使用帮助</button>
     <button class="nav-follow" id="nav-follow">关注我</button>
   </div>
@@ -494,6 +629,7 @@ a { color: inherit; text-decoration: none; }
     <select id="theme-select">
       <option value="">加载中...</option>
     </select>
+    <button class="btn-more-themes" id="btn-more-themes">更多主题 ▸</button>
   </div>
 
   <!-- 自定义主题色 + 7色快捷色板 -->
@@ -533,7 +669,10 @@ a { color: inherit; text-decoration: none; }
   <div class="editor-pane">
     <div class="pane-header">
       <span>Markdown 编辑</span>
-      <span class="pane-note">支持标准 Markdown 语法</span>
+      <span class="pane-header-right">
+        <span class="pane-note">支持标准 Markdown 语法</span>
+        <button class="btn-clear" id="btn-clear" title="一键清空文本">清空</button>
+      </span>
     </div>
     <textarea id="markdown-input" spellcheck="false" placeholder="在此输入 Markdown 内容..."># 欢迎使用公众号 Markdown 一键排版工具
 
@@ -657,6 +796,29 @@ function hello() {
   </div>
 </div>
 
+<!-- ===== 更多主题弹窗 ===== -->
+<div class="modal-overlay more-themes-modal" id="more-themes-modal">
+  <div class="modal-box more-themes-box">
+    <div class="modal-header">
+      <span>更多主题</span>
+      <div class="modal-header-right">
+        <button class="btn-apply-theme" id="btn-apply-theme">应用此主题</button>
+      </div>
+    </div>
+    <div class="more-themes-body">
+      <div class="more-themes-list" id="more-themes-list">
+        <!-- 动态填充主题按钮 -->
+      </div>
+      <div class="more-themes-preview">
+        <div class="preview-label">实时预览</div>
+        <div class="preview-content" id="more-themes-preview-content">
+          <!-- 动态填充预览 -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
@@ -690,6 +852,54 @@ function hello() {
   const wordCountTip = $("word-count-tip");
   const toast = $("toast");
 
+  const SETTINGS_KEY = "wechat_md_editor_settings";
+
+  function saveSettings() {
+    try {
+      const settings = {
+        theme: currentThemeKey || "",
+        customColor: customColor.value || "#07c160",
+        font: fontSelect.value || "",
+        sizeH1: $("size-h1").value,
+        sizeH2: $("size-h2").value,
+        sizeH3: $("size-h3").value,
+        sizeH4: $("size-h4").value,
+        sizeBody: $("size-body").value,
+        customCss: customCss.value || "",
+        metaToggle: $("meta-toggle") ? $("meta-toggle").checked : false
+      };
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    } catch(e) {}
+  }
+
+  function loadSettings() {
+    try {
+      const raw = localStorage.getItem(SETTINGS_KEY);
+      if (!raw) return;
+      const s = JSON.parse(raw);
+      if (s.theme && APP_CONFIG && APP_CONFIG.themes && APP_CONFIG.themes[s.theme]) {
+        currentThemeKey = s.theme;
+        // 如果主题不在默认下拉列表，动态添加
+        if (!Array.from(themeSelect.options).some(o => o.value === s.theme)) {
+          const opt = document.createElement("option");
+          opt.value = s.theme;
+          opt.textContent = s.theme;
+          themeSelect.appendChild(opt);
+        }
+        themeSelect.value = s.theme;
+      }
+      if (s.customColor) { customColor.value = s.customColor; updateSwatchActive(); }
+      if (s.font) fontSelect.value = s.font;
+      if (s.sizeH1) $("size-h1").value = s.sizeH1;
+      if (s.sizeH2) $("size-h2").value = s.sizeH2;
+      if (s.sizeH3) $("size-h3").value = s.sizeH3;
+      if (s.sizeH4) $("size-h4").value = s.sizeH4;
+      if (s.sizeBody) $("size-body").value = s.sizeBody;
+      if (s.customCss) customCss.value = s.customCss;
+      if (s.metaToggle && $("meta-toggle")) $("meta-toggle").checked = true;
+    } catch(e) {}
+  }
+
   async function init() {
     try { copyCount = parseInt(localStorage.getItem("wechat_copy_count") || "0", 10); } catch(e) { copyCount = 0; }
 
@@ -701,6 +911,7 @@ function hello() {
     APP_CONFIG = { site: window.SITE_CONFIG, themes: window.PRESET_THEMES };
     applySiteConfig(APP_CONFIG.site);
     populateThemes(APP_CONFIG.themes);
+    loadSettings();
 
     bindEvents();
     render();
@@ -741,9 +952,13 @@ function hello() {
     }
   }
 
+  // 默认显示在下拉框的主题（10种），其余在「更多主题」弹窗
+  const DEFAULT_THEMES = ["简约黑", "学术蓝", "活泼橙", "中国红", "樱桃绿", "稀有紫", "杂志风", "极客风", "波普风", "小红书风"];
+  let moreThemesSelected = null;
+
   function populateThemes(themes) {
     themeSelect.innerHTML = "";
-    const keys = Object.keys(themes || {});
+    const keys = Object.keys(themes || {}).filter(k => DEFAULT_THEMES.includes(k));
     if (keys.length === 0) {
       themeSelect.innerHTML = '<option value="">无可用主题</option>';
       return;
@@ -898,6 +1113,116 @@ function hello() {
     copyCount++;
     try { localStorage.setItem("wechat_copy_count", String(copyCount)); } catch(e) {}
     if (copyCount % 3 === 0) showCatPopup();
+  }
+
+  // ===== 更多主题弹窗 =====
+  const MORE_THEMES_SAMPLE = `# 主题预览
+
+这是一段**示例文字**，用于预览主题效果。
+
+## 二级标题
+
+普通段落文字，展示正文排版效果。引用块如下：
+
+> 好的排版，是对读者最大的尊重。
+
+### 三级标题
+
+- 列表项一
+- 列表项二
+- **加粗列表项**
+
+\`\`\`javascript
+function hello() {
+  console.log("Hello!");
+}
+\`\`\`
+
+| 列1 | 列2 | 列3 |
+|-----|-----|-----|
+| A   | B   | C   |
+| D   | E   | F   |`;
+
+  function openMoreThemesModal() {
+    const themes = (APP_CONFIG && APP_CONFIG.themes) || {};
+    const moreKeys = Object.keys(themes).filter(k => !DEFAULT_THEMES.includes(k));
+    const list = $("more-themes-list");
+    list.innerHTML = "";
+
+    if (moreKeys.length === 0) {
+      list.innerHTML = '<div style="color:#999;font-size:13px;padding:10px;">暂无更多主题</div>';
+    } else {
+      moreKeys.forEach(key => {
+        const btn = document.createElement("button");
+        btn.className = "theme-item-btn";
+        btn.dataset.theme = key;
+        const dot = document.createElement("span");
+        dot.className = "theme-color-dot";
+        dot.style.background = themes[key].primary || "#999";
+        const label = document.createElement("span");
+        label.textContent = key;
+        btn.appendChild(dot);
+        btn.appendChild(label);
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".theme-item-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          moreThemesSelected = key;
+          previewMoreTheme(key);
+        });
+        list.appendChild(btn);
+      });
+    }
+
+    // 默认选中第一个并预览
+    if (moreKeys.length > 0) {
+      moreThemesSelected = moreKeys[0];
+      list.firstChild.classList.add("active");
+      previewMoreTheme(moreKeys[0]);
+    }
+
+    $("more-themes-modal").classList.add("active");
+  }
+
+  function previewMoreTheme(themeKey) {
+    const themes = (APP_CONFIG && APP_CONFIG.themes) || {};
+    const theme = themes[themeKey];
+    if (!theme) return;
+
+    let previewHtml = "";
+    if (window.marked) {
+      previewHtml = marked.parse(MORE_THEMES_SAMPLE);
+    } else {
+      previewHtml = "<p>marked.js 未加载</p>";
+    }
+
+    const previewContainer = $("more-themes-preview-content");
+    previewContainer.innerHTML = `<style>${theme.css}</style><div class="content">${previewHtml}</div>`;
+  }
+
+  function applyMoreTheme() {
+    if (!moreThemesSelected) return;
+    currentThemeKey = moreThemesSelected;
+    // 如果主题不在默认列表，添加到下拉框
+    if (!Array.from(themeSelect.options).some(o => o.value === moreThemesSelected)) {
+      const opt = document.createElement("option");
+      opt.value = moreThemesSelected;
+      opt.textContent = moreThemesSelected;
+      themeSelect.appendChild(opt);
+    }
+    themeSelect.value = moreThemesSelected;
+    customColor.value = "#07c160";
+    updateSwatchActive();
+    saveSettings();
+    render();
+    closeMoreThemesModal();
+    showToast("已应用主题：" + moreThemesSelected);
+  }
+
+  function closeMoreThemesModal() {
+    $("more-themes-modal").classList.remove("active");
+    // 清空预览内容，移除注入的 <style> 标签，避免与主预览样式冲突
+    $("more-themes-preview-content").innerHTML = "";
+    moreThemesSelected = null;
   }
 
   function showCatPopup() {
@@ -1068,12 +1393,14 @@ function hello() {
 
     themeSelect.addEventListener("change", () => {
       currentThemeKey = themeSelect.value;
+      saveSettings();
       render();
     });
 
     // 自定义颜色
     customColor.addEventListener("input", () => {
       updateSwatchActive();
+      saveSettings();
       render();
     });
 
@@ -1083,6 +1410,7 @@ function hello() {
         const color = sw.getAttribute("data-color");
         customColor.value = color;
         updateSwatchActive();
+        saveSettings();
         render();
       });
     });
@@ -1090,25 +1418,43 @@ function hello() {
     $("reset-color").addEventListener("click", () => {
       customColor.value = "#07c160";
       updateSwatchActive();
+      saveSettings();
       render();
     });
 
-    fontSelect.addEventListener("change", render);
+    fontSelect.addEventListener("change", () => { saveSettings(); render(); });
     ["size-h1","size-h2","size-h3","size-h4","size-body"].forEach(id => {
-      $(id).addEventListener("input", render);
+      $(id).addEventListener("input", () => { saveSettings(); render(); });
     });
 
     let cssTimer = null;
     customCss.addEventListener("input", () => {
       clearTimeout(cssTimer);
-      cssTimer = setTimeout(render, 200);
+      cssTimer = setTimeout(() => { saveSettings(); render(); }, 200);
     });
 
     // 文章头部信息开关
-    $("meta-toggle").addEventListener("change", render);
+    $("meta-toggle").addEventListener("change", () => { saveSettings(); render(); });
 
     // 复制按钮（在预览头部）
     copyBtn.addEventListener("click", copyRichText);
+
+    // 一键清空文本
+    $("btn-clear").addEventListener("click", () => {
+      if (!markdownInput.value.trim()) { showToast("内容已经是空的了"); return; }
+      if (confirm("确定要清空所有文本吗？此操作不可撤销。")) {
+        markdownInput.value = "";
+        render();
+        showToast("已清空");
+      }
+    });
+
+    // 更多主题弹窗
+    $("btn-more-themes").addEventListener("click", openMoreThemesModal);
+    $("btn-apply-theme").addEventListener("click", applyMoreTheme);
+    $("more-themes-modal").addEventListener("click", (e) => {
+      if (e.target.id === "more-themes-modal") closeMoreThemesModal();
+    });
 
     // 使用帮助
     $("nav-help").addEventListener("click", () => {
@@ -1145,6 +1491,7 @@ function hello() {
       if (e.key === "Escape") {
         $("help-modal").classList.remove("active");
         $("follow-modal").classList.remove("active");
+        if ($("more-themes-modal").classList.contains("active")) closeMoreThemesModal();
       }
     });
   }

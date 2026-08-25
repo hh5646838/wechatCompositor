@@ -8,9 +8,9 @@ window.SITE_CONFIG = {
       SITE_TITLE: "公众号 Markdown 一键排版工具",
       AVATAR_URL: "https://mmbiz.qpic.cn/sz_mmbiz_png/GgHxichLUZPicibicDv6nibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibic/640?wx_fmt=png",
       FOLLOW_LINK: "https://mp.weixin.qq.com/",
-      WECHAT_QR: "https://res.cloudinary.com/vljhnkvn/image/upload/w_300,f_auto,q_auto/v1787156531/Weixin_Image_20260813161055_2366_2.jpg",
-      WECHAT_NAME: "JoJo的AI工具箱",
-      JOJO_TOOLBOX_URL: "hh5646838.github.io/aitools/",
+      WECHAT_QR: "https://mmbiz.qpic.cn/sz_mmbiz_png/GgHxichLUZPicibicDv6nibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibicibic/640?wx_fmt=png",
+      WECHAT_NAME: "JoJo的奇妙冒险",
+      JOJO_TOOLBOX_URL: "https://jojo-ai-toolbox.example.com",
       HELP_DOC: "【使用帮助】\n\n1. 在左侧编辑区输入 Markdown 文本，右侧实时预览排版效果。\n2. 在控制面板调节字体、字号，再选择预设主题或自定义主题色。\n3. 可在「自定义 CSS」框中追加额外样式（仅作用于预览与复制结果）。\n4. 点击预览区右上角「复制富文本」按钮，然后直接粘贴到公众号后台编辑器即可。\n\n【微信公众号排版限制说明】\n- 不支持 :hover、:active、:before、:after 等伪类与伪元素；\n- 不支持 @font-face 外部字体，只能使用系统自带字体；\n- 不支持 <script> 与大部分 JavaScript；\n- 部分 CSS 属性（如 position:fixed、overflow）会被过滤；\n- class / id 选择器在粘贴后可能被清除，因此本工具做 CSS 内联，最大化兼容；\n- 图片建议先上传到公众号素材库获取 mmbiz 链接，避免防盗链失效。"
     };
 
@@ -19,7 +19,7 @@ window.CAT_POPUP = {
   title: "猫猫泪水浸湿眼眶",
   message: "排版已成功复制！关注公众号获取更多排版技巧，当然你也可以关掉弹窗继续免费使用，哭泣 ( T﹏T )",
   scanTip: "微信扫一扫，关注公众号",
-  countdown: 5
+  countdown: 3
 };
 
 // ===== 3. 关注公众号弹窗文案配置 =====
@@ -305,5 +305,50 @@ window.PRESET_THEMES = {
 .content table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 13px; font-family: "SFMono-Regular", Consolas, monospace; }
 .content th, .content td { border: 1px solid #E0E0E0; padding: 8px 12px; text-align: left; }
 .content th { background: #1A1A2E; color: #00F5FF; font-weight: 700; }
-.content tr:nth-child(even) td { background: #FFF8FC; }` }
+.content tr:nth-child(even) td { background: #FFF8FC; }` },
+      "可爱风": { primary: "#FF9EC7", css: `.content { color: #5A4A5A; font-size: 16px; line-height: 1.85; font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #FFFAFD; }
+.content h1 { font-size: 24px; font-weight: 800; color: #fff; background: linear-gradient(135deg, #FF9EC7, #FFB6D9); text-align: center; margin: 28px 0 20px; padding: 14px 24px; border-radius: 20px; letter-spacing: 1px; }
+.content h2 { font-size: 20px; font-weight: 700; color: #FF7EB3; margin: 26px 0 14px; padding: 8px 18px; background: #FFF0F6; border-radius: 16px; display: inline-block; }
+.content h3 { font-size: 18px; font-weight: 700; color: #FF9EC7; margin: 22px 0 12px; }
+.content h3::before { content: "♡ "; color: #FFB6D9; }
+.content h4 { font-size: 16px; font-weight: 700; color: #FFB6D9; margin: 18px 0 10px; }
+.content p { margin: 14px 0; }
+.content strong { color: #FF7EB3; font-weight: 700; }
+.content blockquote { margin: 18px 0; padding: 14px 18px; border-left: 4px solid #FFB6D9; background: #FFF5F9; border-radius: 0 14px 14px 0; color: #8A7A8A; }
+.content blockquote p { margin: 4px 0; }
+.content code { background: #FFF0F6; color: #FF7EB3; padding: 2px 8px; border-radius: 10px; font-size: 14px; font-family: "SFMono-Regular", Consolas, monospace; }
+.content pre { background: #3D2A35; color: #FFD6E8; padding: 16px; border-radius: 14px; overflow-x: auto; margin: 16px 0; }
+.content pre code { background: none; color: inherit; padding: 0; }
+.content a { color: #FF7EB3; text-decoration: none; border-bottom: 2px solid #FFD6E8; }
+.content img { max-width: 100%; border-radius: 16px; display: block; margin: 16px auto; }
+.content ul, .content ol { padding-left: 24px; margin: 14px 0; }
+.content li { margin: 8px 0; }
+.content li::marker { color: #FFB6D9; }
+.content hr { border: none; height: 2px; background: linear-gradient(90deg, transparent, #FFB6D9, transparent); margin: 28px 0; }
+.content table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 14px; border-radius: 12px; overflow: hidden; }
+.content th, .content td { border: 1px solid #FFE0EC; padding: 10px 12px; text-align: left; }
+.content th { background: #FF9EC7; color: #fff; font-weight: 700; }
+.content tr:nth-child(even) td { background: #FFF8FB; }` },
+      "漫画风": { primary: "#1a1a1a", css: `.content { color: #1a1a1a; font-size: 16px; line-height: 1.8; font-family: "PingFang SC", "Microsoft YaHei", sans-serif; background: #fff; }
+.content h1 { font-size: 26px; font-weight: 900; color: #fff; background: #1a1a1a; text-align: center; margin: 28px 0 20px; padding: 14px 24px; border: 4px solid #1a1a1a; box-shadow: 6px 6px 0 #fff, 6px 6px 0 4px #1a1a1a; letter-spacing: 2px; }
+.content h2 { font-size: 21px; font-weight: 900; color: #1a1a1a; margin: 28px 0 14px; padding-bottom: 6px; border-bottom: 4px solid #1a1a1a; display: inline-block; }
+.content h3 { font-size: 19px; font-weight: 800; color: #1a1a1a; margin: 22px 0 12px; font-style: italic; text-decoration: underline; text-underline-offset: 4px; }
+.content h4 { font-size: 17px; font-weight: 800; color: #333; margin: 18px 0 10px; }
+.content p { margin: 14px 0; }
+.content strong { color: #1a1a1a; font-weight: 900; background: linear-gradient(transparent 60%, #FFE500 60%); padding: 0 2px; }
+.content blockquote { margin: 20px 0; padding: 14px 18px; border: 3px solid #1a1a1a; background: #fff; color: #1a1a1a; font-weight: 600; box-shadow: 4px 4px 0 #1a1a1a; }
+.content blockquote p { margin: 4px 0; }
+.content code { background: #1a1a1a; color: #FFE500; padding: 2px 8px; border-radius: 2px; font-size: 13px; font-family: "SFMono-Regular", Consolas, monospace; border: 2px solid #1a1a1a; }
+.content pre { background: #1a1a1a; color: #fff; padding: 16px; border-radius: 2px; overflow-x: auto; margin: 16px 0; border: 4px solid #1a1a1a; }
+.content pre code { background: none; color: #FFE500; border: none; padding: 0; }
+.content a { color: #1a1a1a; font-weight: 700; text-decoration: none; border-bottom: 3px solid #FFE500; }
+.content img { max-width: 100%; display: block; margin: 18px auto; border: 4px solid #1a1a1a; box-shadow: 6px 6px 0 #1a1a1a; }
+.content ul, .content ol { padding-left: 24px; margin: 14px 0; }
+.content li { margin: 8px 0; font-weight: 500; }
+.content li::marker { color: #1a1a1a; font-weight: 900; }
+.content hr { border: none; height: 4px; background: repeating-linear-gradient(90deg, #1a1a1a, #1a1a1a 8px, #fff 8px, #fff 16px); margin: 28px 0; }
+.content table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 14px; border: 3px solid #1a1a1a; }
+.content th, .content td { border: 2px solid #1a1a1a; padding: 8px 12px; text-align: left; }
+.content th { background: #1a1a1a; color: #fff; font-weight: 900; }
+.content tr:nth-child(even) td { background: #f5f5f5; }` },
     };
