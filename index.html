@@ -101,6 +101,19 @@ a { color: inherit; text-decoration: none; }
 }
 .control-group select:focus,
 .control-group input:focus { border-color: #07c160; }
+.btn-more-themes {
+  margin-top: 6px;
+  padding: 5px 12px;
+  background: #fff;
+  border: 1px solid #dcdfe6;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #606266;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.btn-more-themes:hover { border-color: #07c160; color: #07c160; }
 .control-group input[type="color"] {
   width: 38px; height: 32px; padding: 2px; cursor: pointer; border-radius: 6px;
 }
@@ -232,6 +245,440 @@ a { color: inherit; text-decoration: none; }
   padding: 24px 28px;
 }
 #preview { max-width: 100%; }
+
+/* ===== 预览模式切换（默认 / 手机） ===== */
+.preview-switch {
+  display: flex;
+  background: #f0f2f5;
+  border-radius: 6px;
+  padding: 2px;
+  gap: 2px;
+}
+.pv-btn {
+  padding: 4px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 5px;
+  font-size: 12px;
+  color: #909399;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.pv-btn.active {
+  background: #fff;
+  color: #07c160;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.pv-btn:hover:not(.active) { color: #606266; }
+
+/* ===== 手机预览仿真（公众号阅读详情页） ===== */
+.preview-wrapper.phone-mode {
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 24px;
+  background: #e8e8e8;
+}
+.phone-opts-panel {
+  display: none;
+}
+.preview-wrapper.phone-mode .phone-opts-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 190px;
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+.phone-opts-title {
+  font-size: 13px;
+  color: #666;
+  font-weight: 600;
+  margin-bottom: 2px;
+  padding-left: 2px;
+}
+.phone-opt-card {
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+.phone-opt-card:hover {
+  border-color: #b0b0b0;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.phone-opt-card.active {
+  border-color: #07c160;
+  background: #f0fdf4;
+}
+.phone-opt-card .opt-icon {
+  font-size: 20px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+.phone-opt-card.active .opt-icon {
+  background: #dcfce7;
+}
+.phone-opt-card .opt-info { flex: 1; min-width: 0; }
+.phone-opt-card .opt-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.3;
+}
+.phone-opt-card .opt-desc {
+  font-size: 11px;
+  color: #999;
+  margin-top: 2px;
+  line-height: 1.3;
+}
+.phone-opt-card .opt-check {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: transparent;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.phone-opt-card.active .opt-check {
+  background: #07c160;
+  border-color: #07c160;
+  color: #fff;
+}
+.phone-ad-warning {
+  margin-top: 6px;
+  padding: 10px 12px;
+  background: #fdf6ec;
+  border: 1px solid #f5dab1;
+  border-radius: 10px;
+  font-size: 12px;
+  color: #b88230;
+  line-height: 1.6;
+}
+.phone-frame {
+  width: 375px;
+  max-width: 100%;
+  background: #1a1a1a;
+  border-radius: 48px;
+  padding: 10px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35), 0 0 0 2px #333;
+  align-self: flex-start;
+}
+.phone-screen {
+  background: #fff;
+  border-radius: 38px;
+  overflow: hidden;
+  position: relative;
+  max-height: 740px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.phone-screen::-webkit-scrollbar {
+  display: none;
+}
+.phone-statusbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px 4px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #000;
+  background: #fff;
+}
+.phone-statusbar .sb-right { display: flex; align-items: center; gap: 5px; font-size: 12px; }
+.phone-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 18px 10px;
+  background: #fff;
+}
+.phone-nav-btn { font-size: 26px; color: #333; font-weight: 300; line-height: 1; }
+.phone-article-title {
+  font-size: 25px;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.4;
+  padding: 6px 20px 14px;
+  letter-spacing: 0.3px;
+}
+.phone-author-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px 6px;
+  font-size: 15px;
+  flex-wrap: wrap;
+}
+.phone-original-tag {
+  background: #f0f0f0;
+  color: #999;
+  font-size: 13px;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+.phone-author-name { color: #999; }
+.phone-account-link { color: #576b95; }
+.phone-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 20px 14px;
+  font-size: 14px;
+  color: #b2b2b2;
+}
+.phone-card {
+  margin: 6px 16px 10px;
+  padding: 16px;
+  background: #f7f7f7;
+  border-radius: 14px;
+}
+.phone-card-top { display: flex; align-items: center; gap: 12px; }
+.phone-card-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+.phone-card-info { flex: 1; min-width: 0; }
+.phone-card-name { font-size: 19px; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }
+.phone-card-desc { font-size: 15px; color: #999; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.phone-card-count { font-size: 15px; color: #999; margin-top: 3px; }
+.phone-card-arrow { color: #ccc; font-size: 22px; flex-shrink: 0; }
+.phone-card-label {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #e8e8e8;
+  font-size: 16px;
+  color: #b2b2b2;
+}
+.phone-follow-tip {
+  padding: 4px 20px 12px;
+  font-size: 17px;
+  color: #333;
+  line-height: 1.7;
+}
+.phone-follow-tip .hl { color: #576b95; }
+.phone-body { padding: 4px 20px 12px; }
+.phone-ad-note {
+  margin: 12px 16px;
+  padding: 10px 14px;
+  background: #fdf6ec;
+  border: 1px solid #f5dab1;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #b88230;
+  line-height: 1.6;
+}
+.phone-mid-ad {
+  margin: 14px 16px;
+  padding: 16px;
+  background: #f7f7f7;
+  border-radius: 14px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.phone-mid-ad-img {
+  width: 116px;
+  height: 116px;
+  border-radius: 10px;
+  background: linear-gradient(135deg,#e8e8e8,#d4d4d4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44px;
+  flex-shrink: 0;
+}
+.phone-mid-ad-info { flex: 1; min-width: 0; }
+.phone-mid-ad-title { font-size: 17px; color: #1a1a1a; font-weight: 500; line-height: 1.4; margin-bottom: 10px; }
+.phone-mid-ad-price-row { display: flex; align-items: center; justify-content: space-between; }
+.phone-mid-ad-price { color: #fa5151; font-size: 26px; font-weight: 700; }
+.phone-mid-ad-buy {
+  background: #fa5151;
+  color: #fff;
+  padding: 8px 22px;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 600;
+}
+.phone-mid-ad-source { font-size: 13px; color: #b2b2b2; margin-top: 10px; }
+.phone-reward {
+  padding: 28px 20px 18px;
+  text-align: center;
+}
+.phone-reward-btn {
+  display: inline-block;
+  background: #fa5151;
+  color: #fff;
+  padding: 16px 64px;
+  border-radius: 16px;
+  font-size: 24px;
+  font-weight: 600;
+}
+.phone-reward-quote {
+  margin-top: 16px;
+  font-size: 20px;
+  color: #333;
+}
+.phone-reward-likes {
+  margin-top: 18px;
+  font-size: 15px;
+  color: #b2b2b2;
+}
+.phone-reward-avatars {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+}
+.phone-reward-avatars img {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+.phone-read-count {
+  padding: 16px 20px 8px;
+  font-size: 16px;
+  color: #b2b2b2;
+}
+.phone-end-ad {
+  margin: 14px 16px;
+  background: #f7f7f7;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.phone-end-ad-banner { display: flex; height: 170px; }
+.phone-end-ad-left {
+  width: 42%;
+  background: linear-gradient(160deg, #0d1b3e, #1a2f6b);
+  padding: 18px 14px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+.phone-end-ad-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.phone-end-ad-brand { font-size: 13px; opacity: 0.8; margin-bottom: 6px; }
+.phone-end-ad-slogan { font-size: 17px; font-weight: 700; line-height: 1.4; margin-bottom: 6px; }
+.phone-end-ad-sub { font-size: 12px; opacity: 0.7; }
+.phone-end-ad-right {
+  width: 58%;
+  background: linear-gradient(135deg, #4fc3f7, #0288d1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64px;
+}
+.phone-end-ad-body { padding: 14px 16px 16px; }
+.phone-end-ad-text { font-size: 17px; color: #1a1a1a; line-height: 1.5; margin-bottom: 8px; }
+.phone-end-ad-bottom { display: flex; justify-content: space-between; align-items: center; }
+.phone-end-ad-brand-name { font-size: 14px; color: #b2b2b2; }
+.phone-end-ad-cta {
+  background: #f0f0f0;
+  color: #333;
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+.phone-comments {
+  padding: 16px 20px 20px;
+  border-top: 8px solid #f7f7f7;
+}
+.phone-comments-title { font-size: 19px; font-weight: 700; color: #1a1a1a; margin-bottom: 14px; }
+.phone-comment-input {
+  background: #f7f7f7;
+  border-radius: 10px;
+  padding: 14px 16px;
+  color: #b2b2b2;
+  font-size: 17px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.phone-comment-input .icons { display: flex; gap: 16px; font-size: 20px; color: #999; }
+.phone-comment-item { display: flex; gap: 10px; padding: 12px 0; border-bottom: 1px solid #f5f5f5; }
+.phone-comment-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 15px;
+}
+.phone-comment-main { flex: 1; min-width: 0; }
+.phone-comment-head { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; flex-wrap: wrap; }
+.phone-comment-name { font-size: 15px; color: #576b95; }
+.phone-comment-verify { color: #1a73e8; font-size: 13px; }
+.phone-comment-meta { font-size: 13px; color: #b2b2b2; }
+.phone-comment-text { font-size: 17px; color: #333; line-height: 1.6; }
+.phone-comment-actions { display: flex; gap: 16px; margin-top: 6px; font-size: 13px; color: #b2b2b2; justify-content: flex-end; }
+.phone-comment-author-tag { color: #07c160; font-size: 13px; font-weight: 600; }
+.phone-comment-reply { margin-left: 48px; margin-top: 10px; display: flex; gap: 8px; }
+.phone-bottom-bar {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  border-top: 1px solid #eee;
+  padding: 8px 16px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.phone-bottom-author { display: flex; align-items: center; gap: 8px; }
+.phone-bottom-avatar { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
+.phone-bottom-name { font-size: 15px; color: #333; }
+.phone-bottom-actions { display: flex; gap: 22px; }
+.phone-bottom-action { display: flex; flex-direction: column; align-items: center; font-size: 11px; color: #666; gap: 2px; }
+.phone-bottom-action .icon { font-size: 22px; line-height: 1; }
+.phone-home-indicator {
+  height: 5px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 6px;
+}
+.phone-home-indicator::after {
+  content: "";
+  width: 120px;
+  height: 4px;
+  background: #1a1a1a;
+  border-radius: 2px;
+}
 
 /* ===== 字数统计 ===== */
 .word-count-bar {
@@ -435,6 +882,103 @@ a { color: inherit; text-decoration: none; }
   opacity: 0.7;
 }
 
+/* ===== 更多主题弹窗 ===== */
+.modal-close-x {
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #909399;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+.modal-close-x:hover { color: #f56c6c; }
+.modal-header-right { display: flex; align-items: center; gap: 10px; }
+.modal-header-right .btn-apply-theme { padding: 6px 16px; font-size: 12px; }
+.more-themes-box .modal-header { display: flex; justify-content: space-between; align-items: center; }
+.more-themes-box {
+  max-width: 820px;
+  width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.more-themes-body {
+  display: flex;
+  gap: 0;
+  flex: 1;
+  overflow: hidden;
+}
+.more-themes-list {
+  width: 180px;
+  flex-shrink: 0;
+  border-right: 1px solid #ebeef5;
+  padding: 12px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.theme-item-btn {
+  padding: 10px 14px;
+  background: #fff;
+  border: 1px solid #dcdfe6;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #606266;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.theme-item-btn:hover { border-color: #07c160; color: #07c160; }
+.theme-item-btn.active { background: #07c160; color: #fff; border-color: #07c160; }
+.theme-color-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+.more-themes-preview {
+  flex: 1;
+  padding: 16px 20px;
+  overflow-y: auto;
+  background: #fafafa;
+}
+.preview-label {
+  font-size: 12px;
+  color: #909399;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.preview-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ebeef5;
+  min-height: 300px;
+}
+.preview-apply-bar {
+  margin-top: 14px;
+  text-align: right;
+}
+.btn-apply-theme {
+  padding: 8px 24px;
+  background: linear-gradient(135deg, #07c160, #10ad56);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-apply-theme:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(7,193,96,0.3); }
+
 /* ===== Toast ===== */
 .toast {
   position: fixed;
@@ -519,6 +1063,7 @@ a { color: inherit; text-decoration: none; }
     <select id="theme-select">
       <option value="">加载中...</option>
     </select>
+    <button class="btn-more-themes" id="btn-more-themes">更多主题 ▸</button>
   </div>
 
   <!-- 自定义主题色 + 7色快捷色板 -->
@@ -544,6 +1089,8 @@ a { color: inherit; text-decoration: none; }
       <input type="checkbox" id="meta-toggle"> 字数+阅读时间
     </label>
   </div>
+
+
 
   <!-- 自定义 CSS -->
   <div class="control-group custom-css-group">
@@ -607,11 +1154,59 @@ function hello() {
       <span>实时预览</span>
       <div class="pane-header-right">
         <span class="pane-note">与公众号后台效果一致</span>
+        <div class="preview-switch">
+          <button class="pv-btn active" data-mode="desktop">默认</button>
+          <button class="pv-btn" data-mode="phone">手机</button>
+        </div>
         <button class="btn-copy-header" id="copy-btn">复制富文本</button>
       </div>
     </div>
-    <div class="preview-wrapper">
+    <div class="preview-wrapper" id="preview-wrapper">
       <div id="preview" class="content"></div>
+      <div class="phone-opts-panel" id="phone-opts-panel">
+        <div class="phone-opts-title">预览模块</div>
+        <div class="phone-opt-card" data-opt="card">
+          <div class="opt-icon">👤</div>
+          <div class="opt-info">
+            <div class="opt-name">公众号名片</div>
+            <div class="opt-desc">作者信息卡片</div>
+          </div>
+          <div class="opt-check">✓</div>
+        </div>
+        <div class="phone-opt-card" data-opt="midAd">
+          <div class="opt-icon">📢</div>
+          <div class="opt-info">
+            <div class="opt-name">文中广告</div>
+            <div class="opt-desc">≥300字自动插入</div>
+          </div>
+          <div class="opt-check">✓</div>
+        </div>
+        <div class="phone-opt-card active" data-opt="endAd">
+          <div class="opt-icon">🖼️</div>
+          <div class="opt-info">
+            <div class="opt-name">文末广告</div>
+            <div class="opt-desc">底部广告卡片</div>
+          </div>
+          <div class="opt-check">✓</div>
+        </div>
+        <div class="phone-opt-card" data-opt="reward">
+          <div class="opt-icon">❤️</div>
+          <div class="opt-info">
+            <div class="opt-name">赞赏区</div>
+            <div class="opt-desc">喜欢作者按钮</div>
+          </div>
+          <div class="opt-check">✓</div>
+        </div>
+        <div class="phone-opt-card active" data-opt="comments">
+          <div class="opt-icon">💬</div>
+          <div class="opt-info">
+            <div class="opt-name">评论区</div>
+            <div class="opt-desc">留言与读者评论</div>
+          </div>
+          <div class="opt-check">✓</div>
+        </div>
+        <div class="phone-ad-warning" id="phone-ad-warning" style="display:none;"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -685,6 +1280,29 @@ function hello() {
   </div>
 </div>
 
+<!-- ===== 更多主题弹窗 ===== -->
+<div class="modal-overlay more-themes-modal" id="more-themes-modal">
+  <div class="modal-box more-themes-box">
+    <div class="modal-header">
+      <span>更多主题</span>
+      <div class="modal-header-right">
+        <button class="btn-apply-theme" id="btn-apply-theme">应用此主题</button>
+      </div>
+    </div>
+    <div class="more-themes-body">
+      <div class="more-themes-list" id="more-themes-list">
+        <!-- 动态填充主题按钮 -->
+      </div>
+      <div class="more-themes-preview">
+        <div class="preview-label">实时预览</div>
+        <div class="preview-content" id="more-themes-preview-content">
+          <!-- 动态填充预览 -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
@@ -701,6 +1319,7 @@ function hello() {
   let currentThemeKey = null;
   let copyCount = 0;
   let catCountdownTimer = null;
+  let currentPreviewMode = "desktop"; // desktop | phone
 
   // ===== 内嵌配置（纯前端，无需后端 API）=====
 
@@ -718,6 +1337,60 @@ function hello() {
   const wordCountTip = $("word-count-tip");
   const toast = $("toast");
 
+  const SETTINGS_KEY = "wechat_md_editor_settings";
+
+  function saveSettings() {
+    try {
+      const settings = {
+        theme: currentThemeKey || "",
+        customColor: customColor.value || "#07c160",
+        font: fontSelect.value || "",
+        sizeH1: $("size-h1").value,
+        sizeH2: $("size-h2").value,
+        sizeH3: $("size-h3").value,
+        sizeH4: $("size-h4").value,
+        sizeBody: $("size-body").value,
+        customCss: customCss.value || "",
+        metaToggle: $("meta-toggle") ? $("meta-toggle").checked : false,
+        previewMode: currentPreviewMode,
+        phoneOpts: getPhoneOpts()
+      };
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    } catch(e) {}
+  }
+
+  function loadSettings() {
+    try {
+      const raw = localStorage.getItem(SETTINGS_KEY);
+      if (!raw) return;
+      const s = JSON.parse(raw);
+      if (s.theme && APP_CONFIG && APP_CONFIG.themes && APP_CONFIG.themes[s.theme]) {
+        currentThemeKey = s.theme;
+        // 如果主题不在默认下拉列表，动态添加
+        if (!Array.from(themeSelect.options).some(o => o.value === s.theme)) {
+          const opt = document.createElement("option");
+          opt.value = s.theme;
+          opt.textContent = s.theme;
+          themeSelect.appendChild(opt);
+        }
+        themeSelect.value = s.theme;
+      }
+      if (s.customColor) { customColor.value = s.customColor; updateSwatchActive(); }
+      if (s.font) fontSelect.value = s.font;
+      if (s.sizeH1) $("size-h1").value = s.sizeH1;
+      if (s.sizeH2) $("size-h2").value = s.sizeH2;
+      if (s.sizeH3) $("size-h3").value = s.sizeH3;
+      if (s.sizeH4) $("size-h4").value = s.sizeH4;
+      if (s.sizeBody) $("size-body").value = s.sizeBody;
+      if (s.customCss) customCss.value = s.customCss;
+      if (s.metaToggle && $("meta-toggle")) $("meta-toggle").checked = true;
+      if (s.phoneOpts) {
+        setPhoneOptCardState(s.phoneOpts);
+      }
+      if (s.previewMode === "phone") setPreviewMode("phone");
+    } catch(e) {}
+  }
+
   async function init() {
     try { copyCount = parseInt(localStorage.getItem("wechat_copy_count") || "0", 10); } catch(e) { copyCount = 0; }
 
@@ -729,6 +1402,7 @@ function hello() {
     APP_CONFIG = { site: window.SITE_CONFIG, themes: window.PRESET_THEMES };
     applySiteConfig(APP_CONFIG.site);
     populateThemes(APP_CONFIG.themes);
+    loadSettings();
 
     bindEvents();
     render();
@@ -769,9 +1443,13 @@ function hello() {
     }
   }
 
+  // 默认显示在下拉框的主题（10种），其余在「更多主题」弹窗
+  const DEFAULT_THEMES = ["简约黑", "学术蓝", "活泼橙", "中国红", "樱桃绿", "稀有紫", "杂志风", "极客风", "波普风", "小红书风"];
+  let moreThemesSelected = null;
+
   function populateThemes(themes) {
     themeSelect.innerHTML = "";
-    const keys = Object.keys(themes || {});
+    const keys = Object.keys(themes || {}).filter(k => DEFAULT_THEMES.includes(k));
     if (keys.length === 0) {
       themeSelect.innerHTML = '<option value="">无可用主题</option>';
       return;
@@ -838,7 +1516,10 @@ function hello() {
     if ($("meta-toggle") && $("meta-toggle").checked) {
       const count = md.replace(/\s/g, "").length;
       const minutes = Math.max(1, Math.ceil(count / 400));
-      html = `<div style="display:flex;align-items:center;gap:14px;padding:10px 16px;background:#f7f8fa;border-radius:6px;font-size:13px;color:#909399;margin-bottom:20px;border-left:3px solid #dcdfe6;">
+      const metaStyle = (currentPreviewMode === "phone")
+        ? 'display:flex;align-items:center;gap:12px;padding:8px 14px;background:#f7f8fa;border-radius:8px;font-size:13px;color:#909399;margin-bottom:16px;border-left:3px solid #07c160;'
+        : 'display:flex;align-items:center;gap:14px;padding:10px 16px;background:#f7f8fa;border-radius:6px;font-size:13px;color:#909399;margin-bottom:20px;border-left:3px solid #dcdfe6;';
+      html = `<div style="${metaStyle}">
         <span>全文 ${count} 字</span>
         <span style="color:#e4e7ed;">|</span>
         <span>预计阅读 ${minutes} 分钟</span>
@@ -846,9 +1527,226 @@ function hello() {
     }
 
     const css = buildCSS();
-    preview.innerHTML = `<style>${css}</style>${html}`;
+    // 保存手机预览滚动位置，避免 render 后跳回顶部
+    const phoneScreen = document.querySelector(".phone-screen");
+    const savedScroll = phoneScreen ? phoneScreen.scrollTop : 0;
+
+    if (currentPreviewMode === "phone") {
+      preview.innerHTML = buildPhoneHtml(html, css);
+      // 恢复滚动位置
+      const newScreen = document.querySelector(".phone-screen");
+      if (newScreen) {
+        const maxScroll = newScreen.scrollHeight - newScreen.clientHeight;
+        newScreen.scrollTop = Math.min(savedScroll, Math.max(0, maxScroll));
+      }
+      // 更新右侧文中广告字数警告
+      const warnEl = $("phone-ad-warning");
+      if (warnEl) {
+        const opts = getPhoneOpts();
+        const plainCount = html.replace(/<[^>]*>/g, "").replace(/\s/g, "").length;
+        if (opts.midAd && plainCount < MID_AD_MIN_CHARS) {
+          warnEl.style.display = "block";
+          warnEl.textContent = "⚠ 当前正文 " + plainCount + " 字，不足 " + MID_AD_MIN_CHARS + " 字，无法插入文中广告（与公众号规则一致）";
+        } else {
+          warnEl.style.display = "none";
+        }
+      }
+    } else {
+      preview.innerHTML = `<style>${css}</style><div class="content">${html}</div>`;
+    }
     window.__currentHtml = html;
     window.__currentCss = css;
+  }
+
+  // ===== 预览模式切换（默认 / 手机）=====
+  function setPreviewMode(mode) {
+    currentPreviewMode = (mode === "phone") ? "phone" : "desktop";
+    $("preview-wrapper").classList.toggle("phone-mode", currentPreviewMode === "phone");
+    document.querySelectorAll(".pv-btn").forEach(b => {
+      b.classList.toggle("active", b.dataset.mode === currentPreviewMode);
+    });
+    saveSettings();
+    render();
+  }
+
+  function getPhoneOpts() {
+    const cards = document.querySelectorAll(".phone-opt-card");
+    const opts = { card: false, midAd: false, endAd: false, reward: false, comments: false };
+    cards.forEach(c => {
+      const key = c.dataset.opt;
+      if (key && opts.hasOwnProperty(key)) opts[key] = c.classList.contains("active");
+    });
+    return opts;
+  }
+
+  function setPhoneOptCardState(opts) {
+    document.querySelectorAll(".phone-opt-card").forEach(c => {
+      const key = c.dataset.opt;
+      if (key && opts && opts.hasOwnProperty(key)) {
+        c.classList.toggle("active", opts[key] === true);
+      }
+    });
+  }
+
+  // ===== 手机预览：公众号阅读详情页仿真 =====
+  const MID_AD_MIN_CHARS = 300;
+  const PHONE_COMMENTS = [
+    { av: "排", bg: "#4fc3f7", name: "排版达人", verify: true, loc: "四川", time: "2小时前", text: "这个一键排版工具太好用了，Markdown写完直接复制到公众号，格式一点不乱！", like: 128, authorReply: "谢谢支持，手机预览功能也上线了，可以试试🌹" },
+    { av: "小", bg: "#f48fb1", name: "小编阿美", verify: true, loc: "广东", time: "5小时前", text: "终于找到这么简洁的排版工具了，主题多还能自定义颜色，强烈推荐！", like: 86 },
+    { av: "运", bg: "#8e7cc3", name: "运营老司机", verify: false, loc: "北京", time: "昨天", text: "手机预览这个功能绝了，直接能看到发出去的效果，省了好多事。", like: 54 }
+  ];
+
+  function buildPhoneHtml(html, css) {
+    const site = (APP_CONFIG && APP_CONFIG.site) || {};
+    const opts = getPhoneOpts();
+    const visibleText = html.replace(/<[^>]*>/g, "").replace(/\s/g, "");
+    const count = visibleText.length;
+
+    // 提取文章标题（取正文第一个 h1，并从正文移除）
+    let title = (site.SITE_TITLE || "公众号文章");
+    const tmp = document.createElement("div");
+    tmp.innerHTML = html;
+    const h1 = tmp.querySelector("h1");
+    if (h1) {
+      title = h1.textContent.trim() || title;
+      h1.remove();
+      html = tmp.innerHTML;
+    }
+
+    const avatar = site.AVATAR_URL || "";
+    const name = "jojocharm";
+    const now = new Date();
+    const dateStr = now.getFullYear() + "年" + (now.getMonth()+1) + "月" + now.getDate() + "日 " + String(now.getHours()).padStart(2,"0") + ":" + String(now.getMinutes()).padStart(2,"0");
+
+    let parts = [];
+
+    // 状态栏 + 导航栏
+    parts.push('<div class="phone-statusbar"><span>18:30</span><span class="sb-right">📶 📶 🔋100%</span></div>');
+    parts.push('<div class="phone-navbar"><span class="phone-nav-btn">×</span><span class="phone-nav-btn">···</span></div>');
+
+    // 标题
+    parts.push('<div class="phone-article-title">' + escapeHtml(title) + '</div>');
+
+    // 作者信息行
+    parts.push('<div class="phone-author-row"><span class="phone-original-tag">原创</span><span class="phone-author-name">' + escapeHtml(name) + '</span><span class="phone-account-link">' + escapeHtml(name) + '</span></div>');
+
+    // 发布信息行
+    parts.push('<div class="phone-meta-row"><span>' + dateStr + '</span><span>广东</span><span>🎧 2人</span></div>');
+
+    // 正文
+    parts.push('<div class="phone-body"><style>' + css + '</style><div class="content">' + html + '</div></div>');
+
+    // 文中广告（字数≥300 且勾选）—— 字数不足时不在手机内显示警告，改在右侧卡片下方提示
+    if (opts.midAd && count >= MID_AD_MIN_CHARS) {
+      parts.push(buildMidAdCard());
+    }
+
+    // 公众号名片（正文结束后）
+    if (opts.card) {
+      parts.push('<div class="phone-card">'
+        + '<div class="phone-card-top">'
+        + '<img class="phone-card-avatar" src="' + avatar + '" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'" alt="">'
+        + '<div class="phone-card-info">'
+        + '<div class="phone-card-name">' + escapeHtml(name) + '</div>'
+        + '<div class="phone-card-desc">我是作者，专注分享优质内容，欢迎关注</div>'
+        + '<div class="phone-card-count">55篇原创内容</div>'
+        + '</div>'
+        + '<span class="phone-card-arrow">›</span>'
+        + '</div>'
+        + '<div class="phone-card-label">公众号</div>'
+        + '</div>');
+    }
+
+    // 赞赏
+    if (opts.reward) {
+      parts.push('<div class="phone-reward">'
+        + '<div class="phone-reward-btn">👍 喜欢作者</div>'
+        + '<div class="phone-reward-quote">" 请' + escapeHtml(name) + '喝杯咖啡 ☕ "</div>'
+        + '<div class="phone-reward-likes">1人喜欢 ›</div>'
+        + '<div class="phone-reward-avatars"><img src="' + avatar + '" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'" alt=""></div>'
+        + '</div>');
+    }
+
+    // 阅读数
+    parts.push('<div class="phone-read-count">阅读 2542</div>');
+
+    // 文末广告
+    if (opts.endAd) {
+      parts.push('<div class="phone-end-ad">'
+        + '<div class="phone-end-ad-banner">'
+        + '<div class="phone-end-ad-left">'
+        + '<span class="phone-end-ad-badge">广告</span>'
+        + '<div class="phone-end-ad-brand">jojocharm</div>'
+        + '<div class="phone-end-ad-slogan">一键排版工具</div>'
+        + '<div class="phone-end-ad-sub">Markdown 秒变公众号</div>'
+        + '</div>'
+        + '<div class="phone-end-ad-right">📝</div>'
+        + '</div>'
+        + '<div class="phone-end-ad-body">'
+        + '<div class="phone-end-ad-text">jojocharm一键排版，多主题切换、手机预览、CSS内联复制，公众号排版效率提升10倍。</div>'
+        + '<div class="phone-end-ad-bottom">'
+        + '<span class="phone-end-ad-brand-name">jojocharm一键排版</span>'
+        + '<span class="phone-end-ad-cta">🎵 立即使用</span>'
+        + '</div></div></div>');
+    }
+
+    // 评论
+    if (opts.comments) {
+      let cmtHtml = '<div class="phone-comments"><div class="phone-comments-title">留言 36</div>';
+      cmtHtml += '<div class="phone-comment-input"><span>写留言</span><span class="icons">😊 🖼️</span></div>';
+      PHONE_COMMENTS.forEach(c => {
+        cmtHtml += '<div class="phone-comment-item">'
+          + '<div class="phone-comment-avatar" style="background:' + c.bg + ';">' + c.av + '</div>'
+          + '<div class="phone-comment-main">'
+          + '<div class="phone-comment-head">'
+          + '<span class="phone-comment-name">' + c.name + '</span>'
+          + (c.verify ? '<span class="phone-comment-verify">✓</span>' : '')
+          + '<span class="phone-comment-meta">' + c.loc + ' ' + c.time + '</span>'
+          + '</div>'
+          + '<div class="phone-comment-text">' + c.text + '</div>'
+          + '<div class="phone-comment-actions"><span>回复</span><span>👍 ' + c.like + '</span></div>';
+        if (c.authorReply) {
+          cmtHtml += '<div class="phone-comment-reply">'
+            + '<div class="phone-comment-avatar" style="background:#07c160;width:28px;height:28px;font-size:11px;">作</div>'
+            + '<div class="phone-comment-main">'
+            + '<div class="phone-comment-head"><span class="phone-comment-name">' + escapeHtml(name) + '</span><span class="phone-comment-author-tag">作者</span><span class="phone-comment-meta">' + c.time + '</span></div>'
+            + '<div class="phone-comment-text">' + c.authorReply + '</div>'
+            + '</div></div>';
+        }
+        cmtHtml += '</div></div>';
+      });
+      cmtHtml += '</div>';
+      parts.push(cmtHtml);
+    }
+
+    // 底部操作栏
+    parts.push('<div class="phone-bottom-bar">'
+      + '<div class="phone-bottom-author">'
+      + '<img class="phone-bottom-avatar" src="' + avatar + '" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'" alt="">'
+      + '<span class="phone-bottom-name">' + escapeHtml(name) + '</span>'
+      + '</div>'
+      + '<div class="phone-bottom-actions">'
+      + '<div class="phone-bottom-action"><span class="icon">👍</span><span>16</span></div>'
+      + '<div class="phone-bottom-action"><span class="icon">↗</span><span>2</span></div>'
+      + '<div class="phone-bottom-action"><span class="icon">♡</span><span>11</span></div>'
+      + '<div class="phone-bottom-action"><span class="icon">💬</span><span>36</span></div>'
+      + '</div></div>');
+    parts.push('<div class="phone-home-indicator"></div>');
+
+    return '<div class="phone-frame"><div class="phone-screen">' + parts.join("\n") + '</div></div>';
+  }
+
+  function buildMidAdCard() {
+    return '<div class="phone-mid-ad">'
+      + '<div class="phone-mid-ad-img">📝</div>'
+      + '<div class="phone-mid-ad-info">'
+      + '<div class="phone-mid-ad-title">jojocharm一键排版，Markdown秒变公众号精美文章</div>'
+      + '<div class="phone-mid-ad-price-row">'
+      + '<span class="phone-mid-ad-price">免费</span>'
+      + '<span class="phone-mid-ad-buy">使用</span>'
+      + '</div>'
+      + '<div class="phone-mid-ad-source">🎵 工具推荐</div>'
+      + '</div></div>';
   }
 
   function updateWordCount(md) {
@@ -926,6 +1824,116 @@ function hello() {
     copyCount++;
     try { localStorage.setItem("wechat_copy_count", String(copyCount)); } catch(e) {}
     if (copyCount % 3 === 0) showCatPopup();
+  }
+
+  // ===== 更多主题弹窗 =====
+  const MORE_THEMES_SAMPLE = `# 主题预览
+
+这是一段**示例文字**，用于预览主题效果。
+
+## 二级标题
+
+普通段落文字，展示正文排版效果。引用块如下：
+
+> 好的排版，是对读者最大的尊重。
+
+### 三级标题
+
+- 列表项一
+- 列表项二
+- **加粗列表项**
+
+\`\`\`javascript
+function hello() {
+  console.log("Hello!");
+}
+\`\`\`
+
+| 列1 | 列2 | 列3 |
+|-----|-----|-----|
+| A   | B   | C   |
+| D   | E   | F   |`;
+
+  function openMoreThemesModal() {
+    const themes = (APP_CONFIG && APP_CONFIG.themes) || {};
+    const moreKeys = Object.keys(themes).filter(k => !DEFAULT_THEMES.includes(k));
+    const list = $("more-themes-list");
+    list.innerHTML = "";
+
+    if (moreKeys.length === 0) {
+      list.innerHTML = '<div style="color:#999;font-size:13px;padding:10px;">暂无更多主题</div>';
+    } else {
+      moreKeys.forEach(key => {
+        const btn = document.createElement("button");
+        btn.className = "theme-item-btn";
+        btn.dataset.theme = key;
+        const dot = document.createElement("span");
+        dot.className = "theme-color-dot";
+        dot.style.background = themes[key].primary || "#999";
+        const label = document.createElement("span");
+        label.textContent = key;
+        btn.appendChild(dot);
+        btn.appendChild(label);
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".theme-item-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          moreThemesSelected = key;
+          previewMoreTheme(key);
+        });
+        list.appendChild(btn);
+      });
+    }
+
+    // 默认选中第一个并预览
+    if (moreKeys.length > 0) {
+      moreThemesSelected = moreKeys[0];
+      list.firstChild.classList.add("active");
+      previewMoreTheme(moreKeys[0]);
+    }
+
+    $("more-themes-modal").classList.add("active");
+  }
+
+  function previewMoreTheme(themeKey) {
+    const themes = (APP_CONFIG && APP_CONFIG.themes) || {};
+    const theme = themes[themeKey];
+    if (!theme) return;
+
+    let previewHtml = "";
+    if (window.marked) {
+      previewHtml = marked.parse(MORE_THEMES_SAMPLE);
+    } else {
+      previewHtml = "<p>marked.js 未加载</p>";
+    }
+
+    const previewContainer = $("more-themes-preview-content");
+    previewContainer.innerHTML = `<style>${theme.css}</style><div class="content">${previewHtml}</div>`;
+  }
+
+  function applyMoreTheme() {
+    if (!moreThemesSelected) return;
+    currentThemeKey = moreThemesSelected;
+    // 如果主题不在默认列表，添加到下拉框
+    if (!Array.from(themeSelect.options).some(o => o.value === moreThemesSelected)) {
+      const opt = document.createElement("option");
+      opt.value = moreThemesSelected;
+      opt.textContent = moreThemesSelected;
+      themeSelect.appendChild(opt);
+    }
+    themeSelect.value = moreThemesSelected;
+    customColor.value = "#07c160";
+    updateSwatchActive();
+    saveSettings();
+    render();
+    closeMoreThemesModal();
+    showToast("已应用主题：" + moreThemesSelected);
+  }
+
+  function closeMoreThemesModal() {
+    $("more-themes-modal").classList.remove("active");
+    // 清空预览内容，移除注入的 <style> 标签，避免与主预览样式冲突
+    $("more-themes-preview-content").innerHTML = "";
+    moreThemesSelected = null;
   }
 
   function showCatPopup() {
@@ -1096,12 +2104,14 @@ function hello() {
 
     themeSelect.addEventListener("change", () => {
       currentThemeKey = themeSelect.value;
+      saveSettings();
       render();
     });
 
     // 自定义颜色
     customColor.addEventListener("input", () => {
       updateSwatchActive();
+      saveSettings();
       render();
     });
 
@@ -1111,6 +2121,7 @@ function hello() {
         const color = sw.getAttribute("data-color");
         customColor.value = color;
         updateSwatchActive();
+        saveSettings();
         render();
       });
     });
@@ -1118,22 +2129,52 @@ function hello() {
     $("reset-color").addEventListener("click", () => {
       customColor.value = "#07c160";
       updateSwatchActive();
+      saveSettings();
       render();
     });
 
-    fontSelect.addEventListener("change", render);
+    fontSelect.addEventListener("change", () => { saveSettings(); render(); });
     ["size-h1","size-h2","size-h3","size-h4","size-body"].forEach(id => {
-      $(id).addEventListener("input", render);
+      $(id).addEventListener("input", () => { saveSettings(); render(); });
     });
 
     let cssTimer = null;
     customCss.addEventListener("input", () => {
       clearTimeout(cssTimer);
-      cssTimer = setTimeout(render, 200);
+      cssTimer = setTimeout(() => { saveSettings(); render(); }, 200);
     });
 
     // 文章头部信息开关
-    $("meta-toggle").addEventListener("change", render);
+    $("meta-toggle").addEventListener("change", () => { saveSettings(); render(); });
+
+    // 预览模式切换
+    document.querySelectorAll(".pv-btn").forEach(b => {
+      b.addEventListener("click", () => setPreviewMode(b.dataset.mode));
+    });
+
+    // 手机预览模块卡片点击
+    document.querySelectorAll(".phone-opt-card").forEach(card => {
+      card.addEventListener("click", () => {
+        card.classList.toggle("active");
+        saveSettings();
+        render();
+      });
+    });
+
+    // 滚动同步：左侧编辑区滚动时手机预览按比例跟随
+    let syncLock = false;
+    markdownInput.addEventListener("scroll", () => {
+      if (currentPreviewMode !== "phone" || syncLock) return;
+      const phoneScreen = document.querySelector(".phone-screen");
+      if (!phoneScreen) return;
+      const inputMax = markdownInput.scrollHeight - markdownInput.clientHeight;
+      const screenMax = phoneScreen.scrollHeight - phoneScreen.clientHeight;
+      if (inputMax > 0 && screenMax > 0) {
+        syncLock = true;
+        phoneScreen.scrollTop = (markdownInput.scrollTop / inputMax) * screenMax;
+        setTimeout(() => { syncLock = false; }, 30);
+      }
+    });
 
     // 复制按钮（在预览头部）
     copyBtn.addEventListener("click", copyRichText);
@@ -1146,6 +2187,13 @@ function hello() {
         render();
         showToast("已清空");
       }
+    });
+
+    // 更多主题弹窗
+    $("btn-more-themes").addEventListener("click", openMoreThemesModal);
+    $("btn-apply-theme").addEventListener("click", applyMoreTheme);
+    $("more-themes-modal").addEventListener("click", (e) => {
+      if (e.target.id === "more-themes-modal") closeMoreThemesModal();
     });
 
     // 使用帮助
@@ -1183,6 +2231,7 @@ function hello() {
       if (e.key === "Escape") {
         $("help-modal").classList.remove("active");
         $("follow-modal").classList.remove("active");
+        if ($("more-themes-modal").classList.contains("active")) closeMoreThemesModal();
       }
     });
   }
